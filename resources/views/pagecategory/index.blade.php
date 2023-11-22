@@ -136,57 +136,58 @@
         });
     }
 
+    //edit
     function showEditForm(id_category, name_category, image_category) {
-    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    Swal.fire({
-        title: 'Edit category',
-        html: `
-            <form id="editCategoryForm" action="/pagecategory/updatecategory/${id_category}" method="POST" enctype="multipart/form-data">
-                @method('PUT')
-                @csrf
-                <div class="form-group">
-                    <label for="name_category">Name:</label>
-                    <textarea class="form-control" id="name_category" name="name_category" rows="4" required>${name_category}</textarea>
-                </div>
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        Swal.fire({
+            title: 'Edit category',
+            html: `
+                <form id="editCategoryForm" action="/pagecategory/updatecategory/${id_category}" method="POST" enctype="multipart/form-data">
+                    @method('PUT')
+                    @csrf
+                    <div class="form-group">
+                        <label for="name_category">Name:</label>
+                        <textarea class="form-control" id="name_category" name="name_category" rows="4" required>${name_category}</textarea>
+                    </div>
 
-                <div class="form-group">
-                    <label for="image_category">Image</label>
-                    <input type="file" class="form-control" id="image_category" name="image_category">
-                </div>
-            </form>
-        `,
-        showCancelButton: true,
-        confirmButtonText: 'Update',
-        focusConfirm: false,
-        preConfirm: () => {
-            const form = document.getElementById('editCategoryForm');
-            const formData = new FormData(form);
-            $.ajax({
-                type: 'POST',
-                url: form.getAttribute('action'),
-                data: formData,
-                processData: false,
-                contentType: false,
-                headers: {
-                    'X-CSRF-TOKEN': token
-                },
-                success: function (response) {
-                    if (response.success) {
-                        Swal.fire('Success', response.message, 'success').then(function () {
-                            location.reload();
-                        });
-                    } else {
-                        Swal.fire('Error', 'Failed to update category', 'error');
+                    <div class="form-group">
+                        <label for="image_category">Image</label>
+                        <input type="file" class="form-control" id="image_category" name="image_category">
+                    </div>
+                </form>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'Update',
+            focusConfirm: false,
+            preConfirm: () => {
+                const form = document.getElementById('editCategoryForm');
+                const formData = new FormData(form);
+                $.ajax({
+                    type: 'POST',
+                    url: form.getAttribute('action'),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': token
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire('Success', response.message, 'success').then(function () {
+                                location.reload();
+                            });
+                        } else {
+                            Swal.fire('Error', 'Failed to update category', 'error');
+                        }
+                    },
+                    error: function (error) {
+                        console.error(error);
+                        Swal.fire('Error', 'An error occurred while updating category', 'error');
                     }
-                },
-                error: function (error) {
-                    console.error(error);
-                    Swal.fire('Error', 'An error occurred while updating category', 'error');
-                }
-            });
-        }
-    });
-}
+                });
+            }
+        });
+    }
 
 
     //delete

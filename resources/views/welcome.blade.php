@@ -68,7 +68,7 @@
             background-color: rgb(255, 255, 255)
         }
         nav{
-            background-color: rgb(133, 152, 152)
+            background: linear-gradient(to right, rgb(47, 51, 54), rgb(72, 94, 117));
         }
         .content-container {
             width: 100%;
@@ -106,6 +106,10 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
+                        @elseif (auth()->user()->level === 'Counselor')
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('counselorlogin') }}">Dashboard</a>
+                            </li>
                         @else
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('userlogin') }}">Dashboard</a>
@@ -113,7 +117,7 @@
                         @endif
                     @endauth
                 @endif
-        
+
                 @if (Route::has('login'))
                     @auth
                     <li class="nav-item">
@@ -198,7 +202,7 @@
                 <a href="https://www.twitter.com/ukrida" target="_blank"><i class="fab fa-twitter"></i></a>
                 <a href="mailto:william.gunawan@ukrida.ac.id "><i class="far fa-envelope"></i></a>
             </div>
-            <strong>Copyright &copy; <a href="https://ukrida.ac.id">UKRIDA 20231</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; <a href="https://ukrida.ac.id">UKRIDA 2023</a>.</strong> All rights reserved.
         </div>
     </footer>    
 

@@ -81,7 +81,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">
+        <a href="{{ asset('/pagequestion') }}" class="nav-link">
           <i class="nav-icon fas fa-question"></i>
           <p>
             Questions
@@ -89,15 +89,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">
-          <i class="nav-icon fas fa-tag"></i>
-          <p>
-            Classification
-          </p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link">
+        <a href="{{ asset('/pageanswer') }}" class="nav-link">
           <i class="nav-icon fas fa-comments"></i>
           <p>
             Answer
@@ -105,7 +97,15 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">
+        <a href="{{ asset('pageclassification') }}" class="nav-link">
+          <i class="nav-icon fas fa-tag"></i>
+          <p>
+            Classification
+          </p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ asset('pagehistory') }}" class="nav-link">
           <i class="nav-icon fas fa-history"></i>
           <p>
             History

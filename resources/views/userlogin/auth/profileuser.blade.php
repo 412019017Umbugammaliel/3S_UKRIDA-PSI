@@ -15,7 +15,7 @@
               <h3 class="card-title">setProfile</h3>
             </div>
             <div class="card-body text-center">
-                <form method="POST" action="{{ route('updateprofile') }}">
+                <form method="POST" action="{{ route('updateprofileuser') }}">
                     @csrf
                     @method('PUT')
                     
@@ -65,7 +65,7 @@
               <h3 class="card-title">setPassword</h3>
             </div>
             <div class="card-body text-center">
-                <form method="POST" action="{{ route('updatepassword') }}">
+                <form method="POST" action="{{ route('updatepassworduser') }}">
                     @csrf
                     @method('PUT')
 

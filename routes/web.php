@@ -1,10 +1,16 @@
 <?php
 
+use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\authController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ClassificationController;
 use App\Http\Controllers\ContentController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\TesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserloginController;
 use App\Http\Controllers\WelcomeController;
@@ -35,7 +41,6 @@ Route::controller(authController::class)->group(function () {
     Route::post('login', 'loginAction')->name('login.action');
 
     Route::get('forgotpassword', 'forgotPassword')->name('password.forgot');
-    // Route::post('forgotpassword', 'sendPasswordResetLink')->name('password.forgot.post');
 
     route::get('logout', 'logout')->middleware('auth')->name('logout');
 });
@@ -96,7 +101,7 @@ Route::middleware(['web', 'admin'])->group(function () {
         Route::get('', [CategoryController::class, 'index'])->name('pagecategory');
         Route::get('create', [CategoryController::class, 'create'])->name('pagecategory.create');
         Route::post('store', [CategoryController::class, 'store'])->name('pagecategory.store');
-        Route::get('{id_category}', [CategoryController::class, 'show'])->name('category.show');
+        Route::get('{id_category}', [CategoryController::class, 'show'])->name('pagecategory.show');
 
         Route::get('{id_category}/edit', [CategoryController::class, 'edit'])->name('pagecategory.edit');
         Route::put('updatecategory/{id_category}', [CategoryController::class, 'updatecategory'])->name('pagecategory.updatecategory');
@@ -108,20 +113,60 @@ Route::middleware(['web', 'admin'])->group(function () {
     Route::prefix('pagequestion')->group(function () {
         Route::get('', [QuestionController::class, 'index'])->name('pagequestion');
         Route::get('create', [QuestionController::class, 'create'])->name('pagequestion.create');
+        Route::post('store', [QuestionController::class, 'store'])->name('pagequestion.store');
+        Route::get('{id_question}', [QuestionController::class, 'show'])->name('pagequestion.show');
+
+        Route::get('edit/{id_question}', [QuestionController::class, 'edit'])->name('pagequestion.edit');
+        Route::put('update/{id_question}', [QuestionController::class, 'update'])->name('pagequestion.update');
+        Route::get('delete/{id_question}', [QuestionController::class, 'destroy'])->name('pagequestion.destroy');
+    });
+
+    //Rute-rute untuk page answer
+    Route::prefix('pageanswer')->group(function () {
+        Route::get('', [AnswerController::class, 'index'])->name('pageanswer');
+        Route::get('create', [AnswerController::class, 'create'])->name('pageanswer.create');
+        Route::post('store', [AnswerController::class, 'store'])->name('pageanswer.store');
+        Route::get('{id}', [AnswerController::class, 'show'])->name('pageanswer.show');
+
+        Route::get('edit/{id}', [AnswerController::class, 'edit'])->name('pageanswer.edit');
+        Route::put('update/{id}', [AnswerController::class, 'update'])->name('pageanswer.update');
+        Route::get('delete/{id}', [AnswerController::class, 'destroy'])->name('pageanswer.destroy');
+    });
+
+    //Rute-rute untuk classification
+    Route::prefix('pageclassification')->group(function () {
+        Route::get('', [ClassificationController::class, 'index'])->name('pageclassification');
+    });
+
+    // Rute-rute untuk history 
+    Route::prefix('pagehistory')->group(function () {
+        Route::get('', [HistoryController::class, 'index'])->name('pagehistory');
     });
 });
 
 // Rute "userlogin" hanya dapat diakses oleh pengguna "User" (tidak perlu middleware)
-Route::middleware(['web', 'auth'])->group(function () {
+Route::middleware(['web', 'user'])->group(function () {
     Route::get('userlogin', function () {
         return view('userlogin.index');
     })->name('userlogin');
-
     Route::get('/userlogin', [UserloginController::class, 'index'])->name('userlogin');
+    // rute untuk profile user
+    Route::get('/profileuser', [authController::class, 'profileuser'])->name('profileuser')->middleware('user');
+    Route::put('/profileuser', [authController::class, 'updateProfileuser'])->name('updateprofileuser')->middleware('user');
+    Route::put('/profileuser/updatepassworduser', [authController::class, 'updatePassworduser'])->name('updatepassworduser')->middleware('user');
+
+    //ini untuk tesnya
+    Route::get('/tes/{currentQuestionIndex?}/{currentQuestion?}', [TesController::class, 'index'])->name('tes');
+    Route::post('/process-answer', [TesController::class, 'processAnswer'])->name('process_answer');
 });
 
 Route::middleware(['web', 'counselor'])->group(function () {
     Route::get('counselorlogin', function () {
         return view('counselorlogin.index');
     })->name('counselorlogin');
+
+    // rute untuk profile counselor
+    Route::get('/profilecounselor', [authController::class, 'profilecounselor'])->name('profilecounselor')->middleware('counselor');
+    Route::put('/profilecounselor', [authController::class, 'updateProfilecounselor'])->name('updateprofilecounselor')->middleware('counselor');
+    Route::put('/profilecounselor/updatepasswordcounselor', [authController::class, 'updatePasswordcounselor'])->name('updatepasswordcounselor')->middleware('counselor');
 });

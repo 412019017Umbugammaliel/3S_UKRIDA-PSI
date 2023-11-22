@@ -17,7 +17,7 @@ class CategoryController extends Controller
 
     public function create()
     {
-        return view('pagecategory.category_moal');
+        return view('pagecategory.category_modal'); //tadi sa typo (moal)
     }
 
     public function store(Request $request)
@@ -72,7 +72,7 @@ class CategoryController extends Controller
             'image_category' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $category = Category::find($id_category);
+        $category = Category::findOrFail($id_category);
 
         if (!$category) {
             return response()->json(['error' => false, 'message' => 'Kategori tidak ditemukan'], 404);

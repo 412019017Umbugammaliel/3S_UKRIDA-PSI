@@ -22,7 +22,7 @@
                             <p>{{ $event->description }}</p>
 
                             <div class="mt-4">
-                                <a href="#" class="btn btn-warning btn-sm btn-flat">
+                                <a href="{{ route('tes') }}" class="btn btn-warning btn-sm btn-flat">
                                     <i class="fas fa-arrow-right fa-sm mr-2"></i> Ikuti Tes
                                 </a>
                             </div>

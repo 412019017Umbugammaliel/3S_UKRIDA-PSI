@@ -125,6 +125,81 @@ class authController extends Controller
         return redirect()->route('profile')->withSuccess('Password Berhasil Diubah!');
     }
 
+    public function profileuser()
+    {
+        return view('userlogin/auth/profileuser');
+    }
+
+    public function updateprofileuser(Request $request)
+    {
+        $user = auth()->user(); // Mengambil pengguna yang sedang masuk
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'class' => 'required',
+            'school_name' => 'required|string|max:255'
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->class = $request->class;
+        $user->school_name = $request->school_name;
+        $user->save();
+
+        return redirect()->route('profileuser')->withSuccess('Profile Berhasil Diubah!');
+    }
+    public function updatepassworduser(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'password' => 'required|confirmed|min:6',
+        ]);
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('profileuser')->withSuccess('Password Berhasil Diubah!');
+    }
+
+    public function profilecounselor()
+    {
+        return view('counselorlogin/auth/profilecounselor');
+    }
+
+    public function updateprofilecounselor(Request $request)
+    {
+        $user = auth()->user(); // Mengambil pengguna yang sedang masuk
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'class' => 'required',
+            'school_name' => 'required|string|max:255'
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->class = $request->class;
+        $user->school_name = $request->school_name;
+        $user->save();
+
+        return redirect()->route('profilecounselor')->withSuccess('Profile Berhasil Diubah!');
+    }
+
+    public function updatepasswordcounselor(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'password' => 'required|confirmed|min:6',
+        ]);
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return redirect()->route('profilecounselor')->withSuccess('Password Berhasil Diubah!');
+    }
+
     public function forgotPassword()
     {
         return view('auth.forgotpassword');

@@ -24,7 +24,6 @@ class User extends Authenticatable
         'school_name',
         'password',
         'level'
-
     ];
 
     /**
@@ -46,4 +45,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the answers associated with the user.
+     */
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'id_user');
+    }
 }

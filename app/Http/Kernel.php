@@ -51,6 +51,12 @@ class Kernel extends HttpKernel
         'counselor' => [
             \App\Http\Middleware\CounselorMiddleware::class,
         ],
+        'user' => [
+            \App\Http\Middleware\UserMiddleware::class,
+        ],
+        'guest' => [
+            \App\Http\Middleware\RedirectIfAuthenticated::class,
+        ],
     ];
 
     /**

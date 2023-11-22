@@ -39,7 +39,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="{{ asset('/profileuser') }}" class="nav-link">
             <i class="nav-icon fas fa-user-edit"></i>
             <p>
               Profile
