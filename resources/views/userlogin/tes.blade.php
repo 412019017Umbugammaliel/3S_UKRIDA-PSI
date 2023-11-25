@@ -17,48 +17,52 @@
                 </div>
             @endif
 
-            <div class="row">
-                <div class="col-12 col-sm-6">
-                    <img src="{{ asset('images/' . $currentQuestion->category->image_category) }}"
-                        class="img-fluid category-image" alt="Category Image">
-                </div>
-                <div class="col-12 col-sm-6">
-                    <h3 class="mt-3 mb-4 text-center text-sm-left font-weight-bold text-warning">
-                        {{ $currentQuestion->category->name_category }}
-                    </h3>
-                    <p>{!! $currentQuestion->questions !!}</p>
+            @foreach($questionsWithAnswers as $index => $question)
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <img src="{{ asset('images/' . $question->category->image_category) }}"
+                            class="img-fluid category-image" alt="Category Image">
+                    </div>
+                    <div class="col-12 col-sm-6">
+                        <h3 class="mt-3 mb-4 text-center text-sm-left font-weight-bold text-warning">
+                            {{ $question->category->name_category }}
+                        </h3>
+                        <p>{!! $question->questions !!}</p>
 
-                    <form
-                        action="{{ route('process_answer', ['currentQuestionIndex' => $currentQuestionIndex, 'currentQuestion' => $currentQuestion]) }}"
-                        method="post">
-                        @csrf
-                        <div class="form-group">
-                            <p class="font-italic mb-1" style="color: red;">Sangat Tidak Suka</p>
-                            @foreach ($answers as $index => $answer)
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="selected_answer"
-                                        id="answer{{ $index }}" value="{{ $index + 1 }}" required>
-                                    <label class="form-check-label" for="answer{{ $index }}">
-                                        {!! $answer->point !!}
-                                    </label>
-                                </div>
-                            @endforeach
-                            <p class="font-italic mb-1" style="color: red;">Sangat Suka</p>
-                        </div>
+                        <form
+                            action="{{ route('process_answer', ['currentQuestionIndex' => $index, 'currentQuestion' => $question]) }}"
+                            method="post">
+                            @csrf
+                            <div class="form-group">
+                                <p class="font-italic mb-1" style="color: red;">Sangat Tidak Suka</p>
+                                @foreach ($question->answers as $answerIndex => $answer)
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="selected_answer"
+                                            id="answer{{ $answerIndex }}" value="{{ $answerIndex + 1 }}" required>
+                                        <label class="form-check-label" for="answer{{ $answerIndex }}">
+                                            {!! $answer->point !!}
+                                        </label>
+                                    </div>
+                                @endforeach
+                                <p class="font-italic mb-1" style="color: red;">Sangat Suka</p>
+                            </div>
 
-                        <div class="mt-3">
-                            <input type="hidden" name="currentQuestionIndex" value="{{ $currentQuestionIndex }}">
-                            <input type="hidden" name="currentQuestion" value="{{ $currentQuestion->id }}">
-                            <button type="submit" name="action" value="previous" class="btn btn-primary" {{
-                                $currentQuestionIndex===0 ? 'disabled' : '' }}>Previous</button>
-                            <button type="submit" name="action" value="next" class="btn btn-primary ml-2" {{
-                                $currentQuestionIndex===count($questionsWithAnswers ?? []) - 1 ? 'disabled' : ''
-                                }}>Next</button>
-                        </div>
-                    </form>
+                            <div class="mt-3">
+                                <input type="hidden" name="id_category" value="{{ $question->category->id }}">
+                                <input type="hidden" name="id_question" value="{{ $question->id }}">
+
+                                <button type="submit" name="action" value="previous" class="btn btn-primary" {{
+                                    $index === 0 ? 'disabled' : '' }}>Previous</button>
+                                <button type="submit" name="action" value="next" class="btn btn-primary ml-2" {{
+                                    $index === count($questionsWithAnswers) - 1 ? 'disabled' : ''
+                                    }}>Next</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </section>
+
 @endsection

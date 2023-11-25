@@ -136,6 +136,13 @@ Route::middleware(['web', 'admin'])->group(function () {
     //Rute-rute untuk classification
     Route::prefix('pageclassification')->group(function () {
         Route::get('', [ClassificationController::class, 'index'])->name('pageclassification');
+        Route::get('create', [ClassificationController::class, 'create'])->name('pageclassification.create');
+        Route::post('store', [ClassificationController::class, 'store'])->name('pageclassification.store');
+        Route::get('{id}', [ClassificationController::class, 'show'])->name('pageclassification.show');
+
+        Route::get('edit/{id}', [ClassificationController::class, 'edit'])->name('pageclassification.edit');
+        Route::put('update/{id}', [ClassificationController::class, 'update'])->name('pageclassification.update');
+        Route::get('delete/{id}', [ClassificationController::class, 'destroy'])->name('pageclasssification.destroy');
     });
 
     // Rute-rute untuk history 
@@ -157,7 +164,7 @@ Route::middleware(['web', 'user'])->group(function () {
 
     //ini untuk tesnya
     Route::get('/tes/{currentQuestionIndex?}/{currentQuestion?}', [TesController::class, 'index'])->name('tes');
-    Route::post('/process-answer', [TesController::class, 'processAnswer'])->name('process_answer');
+    Route::post('/process-answer/{currentQuestionIndex?}/{currentQuestion?}', [TesController::class, 'processAnswer'])->name('process_answer');
 });
 
 Route::middleware(['web', 'counselor'])->group(function () {

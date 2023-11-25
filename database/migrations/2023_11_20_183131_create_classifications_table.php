@@ -12,15 +12,11 @@ return new class extends Migration {
     {
         Schema::create('classifications', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_user');
             $table->unsignedBigInteger('id_category');
-            $table->integer('score');
-            $table->string('conclusion')->nullable();
-            $table->timestamps();
-
-            $table->foreign('id_user')->references('id')->on('users');
-
             $table->foreign('id_category')->references('id_category')->on('categories');
+            $table->string('title');
+            $table->text('description');
+            $table->timestamps();
         });
     }
 

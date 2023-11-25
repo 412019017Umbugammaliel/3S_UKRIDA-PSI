@@ -21,4 +21,9 @@ class Category extends Model
     {
         return $this->hasMany(Question::class, 'id_category');
     }
+
+    public function classifications()
+    {
+        return $this->hasMany(Classification::class, 'id_category');
+    }
 }

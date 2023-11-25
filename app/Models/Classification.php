@@ -11,20 +11,13 @@ class Classification extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_user',
         'id_category',
-        'score',
-        'conclusion'
+        'title',
+        'description',
     ];
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id_user');
-    }
 
     public function category()
     {
         return $this->belongsTo(Category::class, 'id_category');
     }
-
-
 }

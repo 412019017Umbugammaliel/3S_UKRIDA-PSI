@@ -9,9 +9,18 @@ class TesController extends Controller
 {
     public function index($currentQuestionIndex = 0, $currentQuestion = null)
     {
-        $questionsWithAnswers = $currentQuestion
-            ? Question::with('answers')->orderBy('id_category')->get()
-            : Question::with('answers')->orderBy('id_category')->get();
+        // Retrieve unique categories for available questions
+        $categories = Question::distinct('id_category')->pluck('id_category');
+
+        // Check if the session has a current category
+        $currentCategory = session('current_category', $categories->first());
+
+        $questionsWithAnswers = Question::with('answers')
+            ->where('id_category', $currentCategory)
+            ->orderBy('id_category')
+            ->orderBy('id_question') // Replace 'id' with the correct column name
+            ->get();
+
 
         $currentQuestion = $currentQuestion
             ? Question::with('answers')->find($currentQuestion)
@@ -25,9 +34,12 @@ class TesController extends Controller
                 'currentQuestion' => $currentQuestion,
                 'answers' => $answers,
                 'questionsWithAnswers' => $questionsWithAnswers,
+                'categories' => $categories,
+                'currentCategory' => $currentCategory,
             ]);
         }
     }
+
 
     public function processAnswer(Request $request)
     {
@@ -36,6 +48,9 @@ class TesController extends Controller
 
         $currentQuestion = Question::find($idQuestion);
 
+        if (!$currentQuestion instanceof Question) {
+            return redirect()->route('tes')->with(['question_not_found' => 'Question not found. Please try again.']);
+        }
 
         $selectedAnswer = $currentQuestion->answers[$selectedAnswerIndex] ?? null;
 
@@ -47,6 +62,29 @@ class TesController extends Controller
                 'id_question' => $idQuestion,
                 'point' => $points,
             ]);
+        }
+
+        // Check if there are more questions in the current category
+        $hasMoreQuestionsInCategory = Question::where('id_category', $currentQuestion->id_category)
+            ->where('id', '>', $idQuestion)
+            ->exists();
+
+        // If no more questions in the current category, move to the next category
+        if (!$hasMoreQuestionsInCategory) {
+            $categories = Question::distinct('id_category')->pluck('id_category');
+
+            $currentCategoryIndex = array_search($currentQuestion->id_category, $categories->toArray());
+            $nextCategoryIndex = $currentCategoryIndex + 1;
+
+            // If it's the last category, reset to the first category
+            if ($nextCategoryIndex >= count($categories)) {
+                $nextCategoryIndex = 0;
+            }
+
+            $nextCategory = $categories[$nextCategoryIndex];
+
+            // Store the next category in the session
+            session(['current_category' => $nextCategory]);
         }
 
         $nextQuestionIndex = $request->input('action') === 'next' ? $request->input('currentQuestionIndex') + 1 : $request->input('currentQuestionIndex') - 1;
