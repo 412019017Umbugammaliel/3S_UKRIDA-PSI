@@ -37,7 +37,7 @@
                                     <thead>
                                         <tr>
                                             <th>Number</th>
-                                            <th>Question</th>
+                                            <th>Category</th>
                                             <th>User</th>
                                             <th>Point</th>
                                             <th>Action</th>
@@ -50,7 +50,7 @@
                                         @foreach ($answers as $answer)
                                         <tr>
                                             <td>{{ $answerNumber++ }}</td>
-                                            <td>{{ $answer->questions }}</td>
+                                            <td>{{ $answer->name_category }}</td>
                                             <td>{{ $answer->username }}</td>
                                             <td>{{ $answer->point }}</td>
                                                 
@@ -61,8 +61,8 @@
                                                             Actions
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="contentActions">
-                                                            <a class="dropdown-item" href="#" onclick="showAnswerDetails('{{ $answer->id }}', '{{ $answer->questions }}', '{{ $answer->username }}', '{{ $answer->point }}')">Details</a>
-                                                            <a class="dropdown-item" href="#" onclick="EditAnswer('{{ $answer->id }}', '{{ $answer->id_question }}', '{{ $answer->id_user }}', '{{ $answer->point }}')">Edit</a>
+                                                            <a class="dropdown-item" href="#" onclick="showAnswerDetails('{{ $answer->id }}', '{{ $answer->name_category }}', '{{ $answer->username }}', '{{ $answer->point }}')">Details</a>
+                                                            <a class="dropdown-item" href="#" onclick="EditAnswer('{{ $answer->id }}', '{{ $answer->id_category }}', '{{ $answer->id_user }}', '{{ $answer->point }}')">Edit</a>
                                                             <a class="dropdown-item" href="#" onclick="confirmDelete('{{ $answer->id }}')">Hapus</a>
                                                         </div>
                                                     </div>
@@ -97,14 +97,14 @@
                     <form action="{{ route('pageanswer.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
-                            <label for="id_question">Pilih Pertanyaan:</label>
-                            <select name="id_question" id="id_question" class="form-control" required>
-                                <option value="" disabled selected>Select Pertanyaan</option>
-                                @foreach ($questions as $question)
-                                    <option value="{{ $question->id_question }}">{{ $question->questions }}</option>
+                            <label for="id_category">Pilih Kategori:</label>
+                            <select name="id_category" id="id_category" class="form-control" required>
+                                <option value="" disabled selected>Select Kategori</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id_category }}">{{ $category->name_category }}</option>
                                 @endforeach
                             </select>
-                            @error('id_question')
+                            @error('id_category')
                                 <span class="text-danger" role="alert">{{ $message }}</span>
                             @enderror
                         </div>
@@ -152,12 +152,12 @@
                     <form id="editAnswerForm" action="{{ route('pageanswer.update', ['id' => 0]) }}" method="post">
                         @csrf
                         @method('put')
-                        <!-- Add your form fields here (id_question, id_user, point) -->
+                        <!-- Add your form fields here (id_category, id_user, point) -->
                         <div class="form-group">
-                            <label for="editAnswerQuestion">Question</label>
-                            <select class="form-control" id="editAnswerQuestion" name="id_question" required>
-                                @foreach ($questions as $question)
-                                    <option value="{{ $question->id_question }}">{{ $question->questions }}</option>
+                            <label for="editAnswerCategory">Category</label>
+                            <select class="form-control" id="editAnswerCategory" name="id_category" required>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id_category }}">{{ $category->name_category }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -184,30 +184,31 @@
 </section>
 <script>
     //details
-    function showAnswerDetails(id, questions, username, point) {
+    function showAnswerDetails(id, name_category, username, point) {
         // Use SweetAlert to display answer details
         Swal.fire({
             title: 'Answer Details',
-            html: `<strong>ID:</strong> ${id}<br><strong>Questions:</strong> ${questions}<br><strong>Username:</strong> ${username}<br><strong>Point:</strong> ${point}`,
+            html: `<strong>ID:</strong> ${id}<br><strong>Category:</strong> ${name_category}<br><strong>Username:</strong> ${username}<br><strong>Point:</strong> ${point}`,
             icon: 'info',
             confirmButtonText: 'OK'
         });
     }
 
-    //edit
-    function EditAnswer(id, id_question, id_user, point) {
+    // edit
+    function EditAnswer(id, id_category, id_user, point) {
         // Set the form action dynamically based on the answer ID
         var editAnswerForm = document.getElementById('editAnswerForm');
         editAnswerForm.action = '/pageanswer/update/' + id;
 
         // Populate the form fields with existing answer details
-        document.getElementById('editAnswerQuestion').value = id_question;
+        document.getElementById('editAnswerCategory').value = id_category;
         document.getElementById('editAnswerUser').value = id_user;
         document.getElementById('editAnswerPoint').value = point;
 
         // Open the edit modal
         $('#editAnswerModal').modal('show');
     }
+
     
     //delete
     function confirmDelete(answerId) {

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Answer;
-use App\Models\Question;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,16 +14,16 @@ class AnswerController extends Controller
     public function getAllDataGroup()
     {
         $answers = DB::table('answers')
-            ->join('questions', 'answers.id_question', '=', 'questions.id_question')
+            ->join('categories', 'answers.id_category', '=', 'categories.id_category')
             ->join('users', 'answers.id_user', '=', 'users.id')
-            ->select('answers.*', 'questions.questions', 'users.id as id_user', 'users.name as username')
+            ->select('answers.*', 'categories.name_category', 'users.id as id_user', 'users.name as username')
             ->orderBy('answers.id', 'desc')
             ->get();
 
-        $questions = Question::all();
+        $categories = Category::all();
         $users = User::all();
 
-        return view('pageanswer.index', compact('answers', 'questions', 'users'));
+        return view('pageanswer.index', compact('answers', 'categories', 'users'));
     }
 
 
@@ -34,16 +34,16 @@ class AnswerController extends Controller
 
     public function create()
     {
-        $questions = $this->getQuestions();
+        $categories = $this->getCategories();
         $users = $this->getUsers();
 
-        return view('pageanswer.answer_modal', compact('questions', 'users'));
+        return view('pageanswer.answer_modal', compact('categories', 'users'));
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id_question' => 'required|exists:questions,id_question',
+            'id_category' => 'required|exists:categories,id_category',
             'id_user' => 'required|exists:users,id',
             'point' => 'required|numeric',
         ]);
@@ -53,7 +53,7 @@ class AnswerController extends Controller
         }
 
         Answer::create([
-            'id_question' => $request->id_question,
+            'id_category' => $request->id_category,
             'id_user' => $request->id_user,
             'point' => $request->point,
         ]);
@@ -70,10 +70,10 @@ class AnswerController extends Controller
     public function edit($id)
     {
         $answer = Answer::findOrFail($id);
-        $questions = Question::all();
+        $categories = Category::all();
         $users = User::all();
 
-        return view('pageanswer.answer_modal', ['editMode' => true, 'answer' => $answer, 'questions' => $questions, 'users' => $users]);
+        return view('pageanswer.answer_modal', ['editMode' => true, 'answer' => $answer, 'categories' => $categories, 'users' => $users]);
     }
 
 
@@ -82,7 +82,7 @@ class AnswerController extends Controller
     {
         // Validation rules
         $validator = Validator::make($request->all(), [
-            'id_question' => 'required|exists:questions,id_question',
+            'id_category' => 'required|exists:categories,id_category',
             'id_user' => 'required|exists:users,id',
             'point' => 'required|numeric',
         ]);
@@ -102,7 +102,7 @@ class AnswerController extends Controller
             }
 
             // Update the answer attributes
-            $answer->id_question = $request->id_question;
+            $answer->id_category = $request->id_category;
             $answer->id_user = $request->id_user;
             $answer->point = $request->point;
 

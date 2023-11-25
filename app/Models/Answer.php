@@ -9,11 +9,11 @@ class Answer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id_question', 'id_user', 'point'];
+    protected $fillable = ['id_category', 'id_user', 'point'];
 
-    public function question()
+    public function category()
     {
-        return $this->belongsTo(Question::class, 'id_question');
+        return $this->belongsTo(Category::class, 'id_category');
     }
 
     public function user()
