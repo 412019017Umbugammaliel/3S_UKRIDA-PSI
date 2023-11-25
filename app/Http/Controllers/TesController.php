@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
+use App\Models\Point;
 use Illuminate\Http\Request;
 
 class TesController extends Controller
@@ -12,10 +13,12 @@ class TesController extends Controller
         // Retrieve unique categories for available questions
         $categories = Question::distinct('id_category')->pluck('id_category');
 
+        // $questions = Question::all();
+        // dd($questions);
         // Check if the session has a current category
         $currentCategory = session('current_category', $categories->first());
-
-        $questionsWithAnswers = Question::with('answers')
+        $point = Point::all();
+        $questionsWithAnswers = Question::with('category')
             ->where('id_category', $currentCategory)
             ->orderBy('id_category')
             ->orderBy('id_question') // Replace 'id' with the correct column name
@@ -23,16 +26,16 @@ class TesController extends Controller
 
 
         $currentQuestion = $currentQuestion
-            ? Question::with('answers')->find($currentQuestion)
+            ? Question::with('category')->find($currentQuestion)
             : $questionsWithAnswers->first();
 
         if ($currentQuestion) {
-            $answers = $currentQuestion->answers;
+            // $answers = $currentQuestion->answers;
 
             return view('userlogin.tes', [
                 'currentQuestionIndex' => $currentQuestionIndex,
                 'currentQuestion' => $currentQuestion,
-                'answers' => $answers,
+                'point' => $point,
                 'questionsWithAnswers' => $questionsWithAnswers,
                 'categories' => $categories,
                 'currentCategory' => $currentCategory,
@@ -94,5 +97,4 @@ class TesController extends Controller
             'currentQuestion' => null,
         ]);
     }
-
 }

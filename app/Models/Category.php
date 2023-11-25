@@ -24,11 +24,16 @@ class Category extends Model
 
     public function answers()
     {
-        return $this->hasMany(Answer::class, 'id_answer');
+        return $this->hasMany(Answer::class, 'id_category');
     }
 
     public function classifications()
     {
         return $this->hasMany(Classification::class, 'id_category');
     }
+
+    // public function answers1()
+    // {
+    //     return $this->hasMany(Answer::class, 'id_category');
+    // }
 }
