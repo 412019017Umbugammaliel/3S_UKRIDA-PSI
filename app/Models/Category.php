@@ -32,8 +32,8 @@ class Category extends Model
         return $this->hasMany(Classification::class, 'id_category');
     }
 
-    // public function answers1()
-    // {
-    //     return $this->hasMany(Answer::class, 'id_category');
-    // }
+    public function histories()
+    {
+        return $this->hasMany(History::class, 'id_category');
+    }
 }

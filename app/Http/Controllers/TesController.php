@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Question;
 use App\Models\Answer;
-use App\Models\Category;
 use App\Models\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +14,7 @@ class TesController extends Controller
     public function index($currentQuestionIndex = 0, $currentQuestionId = null)
     {
         try {
-            $categories = Question::distinct('id_category')->pluck('id_category');
+            $categories = Category::all();
 
             $questionsWithAnswers = Question::with('category')
                 ->orderBy('id_category')
@@ -37,15 +37,7 @@ class TesController extends Controller
 
             $currentQuestionCategoryID = $currentQuestion->id_category;
 
-
-            $currentCategoryAnswers = DB::table('answers')
-                ->select('point')
-                ->where('id_user', $user->id)
-                ->where('id_category', $currentQuestionCategoryID)
-                ->orderBy('point', 'desc')
-                ->pluck('point')
-                ->toArray();
-
+            $currentCategoryAnswers = range(1, 6);
 
             $categoryPoints = Answer::select('id_category', DB::raw('SUM(point) as total_points'))
                 ->where('id_user', $user->id)
@@ -65,66 +57,72 @@ class TesController extends Controller
         }
     }
 
-
-
     public function processAnswer(Request $request)
     {
-        // Validate the form data
         $request->validate([
-            'selected_answer' => 'required',
+            'selected_answer' => 'required|in:1,2,3,4,5,6',
             'id_category' => 'required',
             'id_question' => 'required',
             'currentQuestionIndex' => 'required',
             'id_user' => 'required',
         ]);
 
-        // Retrieve data from the form submission
         $userId = auth()->user()->id;
         $categoryId = $request->input('id_category');
         $questionId = $request->input('id_question');
         $selectedAnswer = $request->input('selected_answer');
 
-        // Save the user's answer to the database
+        // Simpan jawaban ke dalam tabel answers
         Answer::create([
-            'id_category' => $categoryId,
             'id_user' => $userId,
+            'id_category' => $categoryId,
             'id_question' => $questionId,
             'point' => $selectedAnswer,
         ]);
 
-        // Update or create entry in the 'histories' table
-        History::updateOrCreate(
-            [
-                'id_user' => $userId,
-                'id_category' => $categoryId,
-            ],
-            [
-                'final_point' => DB::table('answers')
-                    ->where('id_user', $userId)
-                    ->where('id_category', $categoryId)
-                    ->sum('point'),
-            ]
-        );
+        // Perbarui poin pada tabel histories
+        $categoryPoints = Answer::select('id_category', DB::raw('SUM(point) as total_points'))
+            ->where('id_user', $userId)
+            ->groupBy('id_category')
+            ->get();
 
-        // Redirect to the next question or a thank you page
-        // You can customize this logic based on your requirements
+        foreach ($categoryPoints as $categoryPoint) {
+            History::updateOrCreate(
+                [
+                    'id_user' => $userId,
+                    'id_category' => $categoryPoint->id_category,
+                ],
+                [
+                    'final_point' => $categoryPoint->total_points,
+                ]
+            );
+        }
+
+        // Redirect ke halaman tes berikutnya atau ke halaman hasil
         $nextQuestionIndex = $request->input('currentQuestionIndex') + 1;
-        $nextQuestionId = $request->input('id_question') + 1; // Assuming questions have consecutive IDs
+        $nextQuestionId = $questionId + 1; // Assuming questions have consecutive IDs
 
-        return redirect()->route('tes', [
-            'currentQuestionIndex' => $nextQuestionIndex,
-            'currentQuestionId' => $nextQuestionId,
-        ]);
+        $lastQuestionId = Question::max('id_question');
+        if ($nextQuestionId > $lastQuestionId) {
+            // Jika ini adalah pertanyaan terakhir, redirect ke halaman hasil
+            return redirect()->route('results');
+        } else {
+            // Jika masih ada pertanyaan berikutnya, redirect ke halaman tes
+            return redirect()->route('tes', [
+                'currentQuestionIndex' => $nextQuestionIndex,
+                'currentQuestionId' => $nextQuestionId,
+            ]);
+        }
     }
 
     public function results()
     {
-        // Retrieve unique categories for available questions
-        $categories = Question::distinct('id_category')->pluck('id_category');
-
-        // Calculate total points per category for the current user
         $user = auth()->user();
-        $categoryPoints = Answer::select('id_category', DB::raw('SUM(point) as total_points'))
+
+        $categories = Category::all();
+
+        // Mengambil data hasil tes dari tabel 'history'
+        $categoryPoints = History::select('id_category', DB::raw('SUM(final_point) as total_points'))
             ->where('id_user', $user->id)
             ->groupBy('id_category')
             ->get();

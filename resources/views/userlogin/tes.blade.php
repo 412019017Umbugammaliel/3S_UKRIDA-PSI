@@ -17,7 +17,7 @@
                                     <h3 class="mt-3 mb-4 text-center text-sm-left font-weight-bold text-warning">
                                         {{ $question->category->name_category }}
                                     </h3>
-                                    <p>{!! $question->questions !!}</p>
+                                    <p>{!! $question->title !!}</p>
 
                                     <form action="{{ route('process_answer') }}" method="post">
                                         @csrf
@@ -35,13 +35,11 @@
                                         </div>
                                         
                                         <div class="mt-3 mb-4">
-                                            {{-- Hidden input fields to store necessary data --}}
-                                            <input type="hidden" name="id_category" value="{{ $question->category->id }}">
-                                            <input type="hidden" name="id_question" value="{{ $question->id }}">
+                                            <input type="hidden" name="id_category" value="{{ $question->category->id_category }}">
+                                            <input type="hidden" name="id_question" value="{{ $question->id_question }}">
                                             <input type="hidden" name="currentQuestionIndex" value="{{ $currentQuestionIndex }}">
                                             <input type="hidden" name="id_user" value="{{ auth()->user()->id }}">
                                             
-                                            {{-- Previous and Next buttons for navigation --}}
                                             <button type="button" class="btn btn-outline-primary prev-question" data-target="#carouselExampleControls" data-slide-to="{{ $index - 1 }}" {{ $index === 0 ? 'disabled' : '' }}>
                                                 <i class="bi bi-arrow-left"></i> Previous
                                             </button>
@@ -63,4 +61,10 @@
             </div>
         </div>
     </section>
+
+    <script>
+        function calculateAndRedirect() {
+            window.location.href = "{{ route('results') }}";
+        }
+    </script>
 @endsection

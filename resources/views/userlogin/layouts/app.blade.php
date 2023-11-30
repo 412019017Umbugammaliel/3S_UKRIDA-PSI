@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>UKRIDA PSIKOTES | Dashboard</title>
+  <title>UKRIDA PSIKOTES</title>
   <link rel="icon" href="{{ asset('images/Logo_UKRIDA.png') }}">
 
   <!-- Google Font: Source Sans Pro -->
@@ -68,6 +68,6 @@
 <!-- AdminLTE App -->
 <script src="{{ asset('/') }}dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="{{ asset('/') }}dist/js/demo.js"></script>
+{{-- <script src="{{ asset('/') }}dist/js/demo.js"></script> --}}
 </body>
 </html>

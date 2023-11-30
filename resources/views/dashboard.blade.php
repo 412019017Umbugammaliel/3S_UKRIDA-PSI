@@ -129,8 +129,8 @@
                     <!-- small box -->
                     <div class="small-box" style="background: linear-gradient(to right, #ff6666, #bf667c);">
                         <div class="inner">
-                            {{-- Masukan Jumlah History disini --}}
-                            <h3>Ini Belum ada</h3>
+                            <h3>{{ \App\Models\History::count() }}</h3>
+
                             <p>History Test</p>
                         </div>
                         <div class="icon">

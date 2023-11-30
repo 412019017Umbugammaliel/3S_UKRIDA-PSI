@@ -164,10 +164,13 @@ Route::middleware(['web', 'user'])->group(function () {
         return view('userlogin.index');
     })->name('userlogin');
     Route::get('/userlogin', [UserloginController::class, 'index'])->name('userlogin');
+    // history user
+    Route::get('/history', [HistoryController::class, 'historyuser'])->name('history');
+
     // rute untuk profile user
-    Route::get('/profileuser', [authController::class, 'profileuser'])->name('profileuser')->middleware('user');
-    Route::put('/profileuser', [authController::class, 'updateProfileuser'])->name('updateprofileuser')->middleware('user');
-    Route::put('/profileuser/updatepassworduser', [authController::class, 'updatePassworduser'])->name('updatepassworduser')->middleware('user');
+    Route::get('/profileuser', [authController::class, 'profileuser'])->name('profileuser');
+    Route::put('/profileuser', [authController::class, 'updateProfileuser'])->name('updateprofileuser');
+    Route::put('/profileuser/updatepassworduser', [authController::class, 'updatePassworduser'])->name('updatepassworduser');
 
     // Ini untuk tesnya
     Route::get('/tes/{currentQuestionIndex?}', [TesController::class, 'index'])->name('tes');
@@ -181,7 +184,7 @@ Route::middleware(['web', 'counselor'])->group(function () {
     })->name('counselorlogin');
 
     // rute untuk profile counselor
-    Route::get('/profilecounselor', [authController::class, 'profilecounselor'])->name('profilecounselor')->middleware('counselor');
-    Route::put('/profilecounselor', [authController::class, 'updateProfilecounselor'])->name('updateprofilecounselor')->middleware('counselor');
-    Route::put('/profilecounselor/updatepasswordcounselor', [authController::class, 'updatePasswordcounselor'])->name('updatepasswordcounselor')->middleware('counselor');
+    Route::get('/profilecounselor', [authController::class, 'profilecounselor'])->name('profilecounselor');
+    Route::put('/profilecounselor', [authController::class, 'updateProfilecounselor'])->name('updateprofilecounselor');
+    Route::put('/profilecounselor/updatepasswordcounselor', [authController::class, 'updatePasswordcounselor'])->name('updatepasswordcounselor');
 });
