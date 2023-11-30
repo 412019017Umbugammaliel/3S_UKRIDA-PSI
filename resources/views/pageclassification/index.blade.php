@@ -69,6 +69,7 @@
                                                 </div>
                                             </td>
                                         </tr>
+                                        
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -121,6 +122,7 @@
             </div>
         </div>
     </div>
+    {{-- @foreach ($classifications as $classification) --}}
     <!-- Edit Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -132,7 +134,8 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="editForm" action="{{ route('pageclassification.update', ['id' => $classification->id]) }}" method="post">
+                    {{-- <form id="editForm" action="{{ route('pageclassification.update', ['id' => $classification->id]) }}" method="post"> --}}
+                    <form id="editForm" action="{{ route('pageclassification.update', ['id' => 0]) }}" method="post">
                         @csrf
                         @method('put')
                         <div class="form-group">
@@ -157,6 +160,7 @@
             </div>
         </div>
     </div>
+    {{-- @endforeach --}}
 </section>
 
 <script>

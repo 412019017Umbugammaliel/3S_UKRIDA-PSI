@@ -148,6 +148,13 @@ Route::middleware(['web', 'admin'])->group(function () {
     // Rute-rute untuk history 
     Route::prefix('pagehistory')->group(function () {
         Route::get('', [HistoryController::class, 'index'])->name('pagehistory');
+        Route::get('create', [HistoryController::class, 'create'])->name('pagehistory.create');
+        Route::post('store', [HistoryController::class, 'store'])->name('pagehistory.store');
+        Route::get('{id}', [HistoryController::class, 'show'])->name('pagehistory.show');
+
+        Route::get('edit/{id}', [HistoryController::class, 'edit'])->name('pagehistory.edit');
+        Route::put('update/{id}', [HistoryController::class, 'update'])->name('pagehistory.update');
+        Route::get('delete/{id}', [HistoryController::class, 'destroy'])->name('pagehistory.destroy');
     });
 });
 
@@ -162,9 +169,10 @@ Route::middleware(['web', 'user'])->group(function () {
     Route::put('/profileuser', [authController::class, 'updateProfileuser'])->name('updateprofileuser')->middleware('user');
     Route::put('/profileuser/updatepassworduser', [authController::class, 'updatePassworduser'])->name('updatepassworduser')->middleware('user');
 
-    //ini untuk tesnya
-    Route::get('/tes/{currentQuestionIndex?}/{currentQuestion?}', [TesController::class, 'index'])->name('tes');
-    Route::post('/process-answer/{currentQuestionIndex?}/{currentQuestion?}', [TesController::class, 'processAnswer'])->name('process_answer');
+    // Ini untuk tesnya
+    Route::get('/tes/{currentQuestionIndex?}', [TesController::class, 'index'])->name('tes');
+    Route::post('/tes/process-answer', [TesController::class, 'processAnswer'])->name('process_answer');
+    Route::get('/results', [TesController::class, 'results'])->name('results');
 });
 
 Route::middleware(['web', 'counselor'])->group(function () {

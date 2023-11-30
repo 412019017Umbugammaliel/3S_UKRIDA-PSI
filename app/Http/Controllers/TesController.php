@@ -3,98 +3,135 @@
 namespace App\Http\Controllers;
 
 use App\Models\Question;
-use App\Models\Point;
+use App\Models\Answer;
+use App\Models\Category;
+use App\Models\History;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TesController extends Controller
 {
-    public function index($currentQuestionIndex = 0, $currentQuestion = null)
+    public function index($currentQuestionIndex = 0, $currentQuestionId = null)
     {
-        // Retrieve unique categories for available questions
-        $categories = Question::distinct('id_category')->pluck('id_category');
+        try {
+            $categories = Question::distinct('id_category')->pluck('id_category');
 
-        // $questions = Question::all();
-        // dd($questions);
-        // Check if the session has a current category
-        $currentCategory = session('current_category', $categories->first());
-        $point = Point::all();
-        $questionsWithAnswers = Question::with('category')
-            ->where('id_category', $currentCategory)
-            ->orderBy('id_category')
-            ->orderBy('id_question') // Replace 'id' with the correct column name
-            ->get();
+            $questionsWithAnswers = Question::with('category')
+                ->orderBy('id_category')
+                ->orderBy('id_question')
+                ->get();
+
+            $currentQuestion = $currentQuestionId
+                ? $questionsWithAnswers->where('id_question', $currentQuestionId)->first()
+                : $questionsWithAnswers->first();
+
+            if (!$currentQuestion) {
+                throw new \Exception('Current question not found.');
+            }
+
+            if (!$currentQuestion->category) {
+                throw new \Exception('Current question category not found.');
+            }
+
+            $user = auth()->user();
+
+            $currentQuestionCategoryID = $currentQuestion->id_category;
 
 
-        $currentQuestion = $currentQuestion
-            ? Question::with('category')->find($currentQuestion)
-            : $questionsWithAnswers->first();
+            $currentCategoryAnswers = DB::table('answers')
+                ->select('point')
+                ->where('id_user', $user->id)
+                ->where('id_category', $currentQuestionCategoryID)
+                ->orderBy('point', 'desc')
+                ->pluck('point')
+                ->toArray();
 
-        if ($currentQuestion) {
-            // $answers = $currentQuestion->answers;
+
+            $categoryPoints = Answer::select('id_category', DB::raw('SUM(point) as total_points'))
+                ->where('id_user', $user->id)
+                ->groupBy('id_category')
+                ->get();
 
             return view('userlogin.tes', [
                 'currentQuestionIndex' => $currentQuestionIndex,
                 'currentQuestion' => $currentQuestion,
-                'point' => $point,
                 'questionsWithAnswers' => $questionsWithAnswers,
                 'categories' => $categories,
-                'currentCategory' => $currentCategory,
+                'categoryPoints' => $categoryPoints,
+                'currentCategoryAnswers' => $currentCategoryAnswers,
             ]);
+        } catch (\Exception $e) {
+            return redirect()->route('tes')->with(['question_not_found' => $e->getMessage()]);
         }
     }
 
 
+
     public function processAnswer(Request $request)
     {
-        $idQuestion = $request->input('id_question');
-        $selectedAnswerIndex = $request->input('selected_answer') - 1;
+        // Validate the form data
+        $request->validate([
+            'selected_answer' => 'required',
+            'id_category' => 'required',
+            'id_question' => 'required',
+            'currentQuestionIndex' => 'required',
+            'id_user' => 'required',
+        ]);
 
-        $currentQuestion = Question::find($idQuestion);
+        // Retrieve data from the form submission
+        $userId = auth()->user()->id;
+        $categoryId = $request->input('id_category');
+        $questionId = $request->input('id_question');
+        $selectedAnswer = $request->input('selected_answer');
 
-        if (!$currentQuestion instanceof Question) {
-            return redirect()->route('tes')->with(['question_not_found' => 'Question not found. Please try again.']);
-        }
+        // Save the user's answer to the database
+        Answer::create([
+            'id_category' => $categoryId,
+            'id_user' => $userId,
+            'id_question' => $questionId,
+            'point' => $selectedAnswer,
+        ]);
 
-        $selectedAnswer = $currentQuestion->answers[$selectedAnswerIndex] ?? null;
+        // Update or create entry in the 'histories' table
+        History::updateOrCreate(
+            [
+                'id_user' => $userId,
+                'id_category' => $categoryId,
+            ],
+            [
+                'final_point' => DB::table('answers')
+                    ->where('id_user', $userId)
+                    ->where('id_category', $categoryId)
+                    ->sum('point'),
+            ]
+        );
 
-        if ($selectedAnswer) {
-            $points = $selectedAnswer->point;
-
-            $user = auth()->user();
-            $user->answers()->create([
-                'id_question' => $idQuestion,
-                'point' => $points,
-            ]);
-        }
-
-        // Check if there are more questions in the current category
-        $hasMoreQuestionsInCategory = Question::where('id_category', $currentQuestion->id_category)
-            ->where('id', '>', $idQuestion)
-            ->exists();
-
-        // If no more questions in the current category, move to the next category
-        if (!$hasMoreQuestionsInCategory) {
-            $categories = Question::distinct('id_category')->pluck('id_category');
-
-            $currentCategoryIndex = array_search($currentQuestion->id_category, $categories->toArray());
-            $nextCategoryIndex = $currentCategoryIndex + 1;
-
-            // If it's the last category, reset to the first category
-            if ($nextCategoryIndex >= count($categories)) {
-                $nextCategoryIndex = 0;
-            }
-
-            $nextCategory = $categories[$nextCategoryIndex];
-
-            // Store the next category in the session
-            session(['current_category' => $nextCategory]);
-        }
-
-        $nextQuestionIndex = $request->input('action') === 'next' ? $request->input('currentQuestionIndex') + 1 : $request->input('currentQuestionIndex') - 1;
+        // Redirect to the next question or a thank you page
+        // You can customize this logic based on your requirements
+        $nextQuestionIndex = $request->input('currentQuestionIndex') + 1;
+        $nextQuestionId = $request->input('id_question') + 1; // Assuming questions have consecutive IDs
 
         return redirect()->route('tes', [
             'currentQuestionIndex' => $nextQuestionIndex,
-            'currentQuestion' => null,
+            'currentQuestionId' => $nextQuestionId,
+        ]);
+    }
+
+    public function results()
+    {
+        // Retrieve unique categories for available questions
+        $categories = Question::distinct('id_category')->pluck('id_category');
+
+        // Calculate total points per category for the current user
+        $user = auth()->user();
+        $categoryPoints = Answer::select('id_category', DB::raw('SUM(point) as total_points'))
+            ->where('id_user', $user->id)
+            ->groupBy('id_category')
+            ->get();
+
+        return view('userlogin.results', [
+            'categories' => $categories,
+            'categoryPoints' => $categoryPoints,
         ]);
     }
 }

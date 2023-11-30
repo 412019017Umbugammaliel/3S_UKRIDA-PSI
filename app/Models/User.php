@@ -53,4 +53,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Answer::class, 'id_user');
     }
+    public function history()
+    {
+        return $this->hasMany(History::class, 'id_user');
+    }
 }
