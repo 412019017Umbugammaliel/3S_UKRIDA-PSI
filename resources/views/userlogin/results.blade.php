@@ -10,15 +10,23 @@
 
                 @foreach ($categories as $category)
                     <div class="card mb-4">
-                        <div class="card-header bg-warning text-dark"> {{-- Adjusted text color for better readability --}}
+                        <div class="card-header bg-warning text-dark">
                             {{ $category->name_category }}
                         </div>
                         <div class="card-body">
                             @php
                                 $categoryPoint = $categoryPoints->where('id_category', $category->id_category)->first();
+                                $classifications = $category->classifications;
                             @endphp
+
                             @if ($categoryPoint)
                                 <p>Total Points: {{ $categoryPoint->total_points }}</p>
+                                <p>Classifications:</p>
+                                <ul>
+                                    @foreach ($classifications as $classification)
+                                        <li>{{ $classification->title }} - {{ $classification->description }}</li>
+                                    @endforeach
+                                </ul>
                             @else
                                 <p>{{ __('No data available yet') }}</p>
                             @endif
