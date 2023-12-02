@@ -17,7 +17,7 @@
                                     <h3 class="mt-3 mb-4 text-center text-sm-left font-weight-bold text-warning">
                                         {{ $question->category->name_category }}
                                     </h3>
-                                    <p>{!! $question->title !!}</p>
+                                    <p>{!! $question->questions !!}</p>
 
                                     <form action="{{ route('process_answer') }}" method="post">
                                         @csrf
