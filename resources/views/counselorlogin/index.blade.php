@@ -13,35 +13,51 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Rendering engine</th>
-                                        <th>Browser</th>
-                                        <th>Platform(s)</th>
-                                        <th>Engine version</th>
-                                        <th>CSS grade</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Gecko</td>
-                                        <td>Netscape 7.2</td>
-                                        <td>Win 95+ / Mac OS 8.6-9.2</td>
-                                        <td>1.7</td>
-                                        <td>A</td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td>Gecko</td>
-                                        <td>Mozilla 1.7</td>
-                                        <td>Win 98+ / OSX.1+</td>
-                                        <td>1.7</td>
-                                        <td>A</td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                            <div class="table-responsive">
+                                @if(isset($histories) && $histories->count() > 0)
+                                    <table id="example1" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Number</th>
+                                                {{-- <th>Category</th> --}}
+                                                <th>User</th>
+                                                <th>Final Point</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                            $historyNumber = 1;
+                                            @endphp
+                                            @foreach ($histories as $history)
+                                            <tr>
+                                                <td>{{ $historyNumber++ }}</td>
+                                                {{-- <td>{{ $history->name_category }}</td> --}}
+                                                <td>{{ $history->username }}</td>
+                                                <td>{{ $history->final_point }}</td>
+                                                    
+                                                <td class="align-middle">
+                                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                                        <div class="btn-group" role="group">
+                                                            <button id="contentActions" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                Actions
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="contentActions">
+                                                                <a class="dropdown-item" href="#" onclick="showhistoryDetails('{{ $history->id }}', '{{ $history->username }}', '{{ $history->final_point }}')">Details</a>
+                                                                {{-- <a class="dropdown-item" href="#" onclick="Edithistory('{{ $history->id }}', '{{ $history->id_category }}', '{{ $history->id_user }}', '{{ $history->final_point }}')">Edit</a> --}}
+                                                                <a class="dropdown-item" href="#" onclick="confirmDelete('{{ $history->id }}')">Hapus</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                    @else
+                                    <p class="text-center">Riwayat Tidak Ditemukan</p>
+                                @endif
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>

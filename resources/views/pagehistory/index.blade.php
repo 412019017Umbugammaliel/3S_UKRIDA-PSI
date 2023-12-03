@@ -13,7 +13,7 @@
                             <div class="col-8">
                                 <h3 class="card-title">Data History UKRIDA 3S</h3>
                             </div>
-                            <div class="col-4 text-right">
+                            {{-- <div class="col-4 text-right">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tambahHistoryModal">Tambah Riwayat</button>
                             </div>
                             @if (session()->has('success'))
@@ -26,7 +26,7 @@
                                         showConfirmButton: false
                                     });
                                 </script>
-                            @endif
+                            @endif --}}
                         </div>
                     </div>                
                    <!-- /.card-header -->
@@ -61,9 +61,9 @@
                                                             Actions
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="contentActions">
-                                                            {{-- <a class="dropdown-item" href="#" onclick="showhistoryDetails('{{ $history->id }}', '{{ $history->name_category }}', '{{ $history->username }}', '{{ $history->final_point }}')">Details</a> --}}
+                                                            <a class="dropdown-item" href="#" onclick="showhistoryDetails('{{ $history->id }}', '{{ $history->username }}', '{{ $history->final_point }}')">Details</a>
                                                             {{-- <a class="dropdown-item" href="#" onclick="Edithistory('{{ $history->id }}', '{{ $history->id_category }}', '{{ $history->id_user }}', '{{ $history->final_point }}')">Edit</a> --}}
-                                                            {{-- <a class="dropdown-item" href="#" onclick="confirmDelete('{{ $history->id }}')">Hapus</a> --}}
+                                                            <a class="dropdown-item" href="#" onclick="confirmDelete('{{ $history->id }}')">Hapus</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -84,7 +84,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="tambahHistoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    {{-- <div class="modal fade" id="tambahHistoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -178,36 +178,36 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
 </section>
 <script>
     //details
-    function showhistoryDetails(id, name_category, username, final_point) {
+    function showhistoryDetails(id, username, final_point) {
         // Use SweetAlert to display history details
         Swal.fire({
             title: 'history Details',
-            html: `<strong>ID:</strong> ${id}<br><strong>Category:</strong> ${name_category}<br><strong>Username:</strong> ${username}<br><strong>Final Point:</strong> ${final_point}`,
+            html: `<strong>ID:</strong> ${id}<br><strong>Username:</strong> ${username}<br><strong>Final Point:</strong> ${final_point}`,
             icon: 'info',
             confirmButtonText: 'OK'
         });
     }
 
-    // edit
-    function Edithistory(id, id_category, id_user, final_point) {
-        // Set the form action dynamically based on the history ID
-        var edithistoryForm = document.getElementById('edithistoryForm');
-        edithistoryForm.action = '/pagehistory/update/' + id;
+    // // edit
+    // function Edithistory(id, id_category, id_user, final_point) {
+    //     // Set the form action dynamically based on the history ID
+    //     var edithistoryForm = document.getElementById('edithistoryForm');
+    //     edithistoryForm.action = '/pagehistory/update/' + id;
 
-        // Populate the form fields with existing history details
-        document.getElementById('edithistoryCategory').value = id_category;
-        document.getElementById('edithistoryUser').value = id_user;
-        document.getElementById('edithistoryFinalPoint').value = final_point;
+    //     // Populate the form fields with existing history details
+    //     document.getElementById('edithistoryCategory').value = id_category;
+    //     document.getElementById('edithistoryUser').value = id_user;
+    //     document.getElementById('edithistoryFinalPoint').value = final_point;
 
-        // Open the edit modal
-        $('#edithistoryModal').modal('show');
-    }
+    //     // Open the edit modal
+    //     $('#edithistoryModal').modal('show');
+    // }
 
     
     //delete

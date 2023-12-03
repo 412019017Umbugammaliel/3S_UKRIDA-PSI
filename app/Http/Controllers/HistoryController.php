@@ -36,84 +36,84 @@ class HistoryController extends Controller
         return view('userlogin.history');
     }
 
-    public function create()
-    {
-        $categories = $this->getCategories();
-        $users = $this->getUsers();
+    // public function create()
+    // {
+    //     $categories = $this->getCategories();
+    //     $users = $this->getUsers();
 
-        return view('pagehistory.history_modal', compact('categories', 'users'));
-    }
+    //     return view('pagehistory.history_modal', compact('categories', 'users'));
+    // }
 
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'id_category' => 'required|exists:categories,id_category',
-            'id_user' => 'required|exists:users,id',
-            'final_point' => 'required',
-        ]);
+    // public function store(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'id_category' => 'required|exists:categories,id_category',
+    //         'id_user' => 'required|exists:users,id',
+    //         'final_point' => 'required',
+    //     ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+    //     if ($validator->fails()) {
+    //         return redirect()->back()->withErrors($validator)->withInput();
+    //     }
 
-        History::create([
-            'id_category' => $request->id_category,
-            'id_user' => $request->id_user,
-            'final_point' => $request->final_point,
-        ]);
+    //     History::create([
+    //         'id_category' => $request->id_category,
+    //         'id_user' => $request->id_user,
+    //         'final_point' => $request->final_point,
+    //     ]);
 
-        return redirect()->route('pagehistory')->with('success', 'Berhasil menambahkan Jawaban!');
-    }
+    //     return redirect()->route('pagehistory')->with('success', 'Berhasil menambahkan Jawaban!');
+    // }
 
-    public function show($history)
-    {
-        return view('pagehistory.index', ['history' => $history]);
-    }
+    // public function show($history)
+    // {
+    //     return view('pagehistory.index', ['history' => $history]);
+    // }
 
 
-    public function edit($id)
-    {
-        $history = History::findOrFail($id);
-        $categories = Category::all();
-        $users = User::all();
+    // public function edit($id)
+    // {
+    //     $history = History::findOrFail($id);
+    //     $categories = Category::all();
+    //     $users = User::all();
 
-        return view('pagehistory.history_modal', ['editMode' => true, 'history' => $history, 'categories' => $categories, 'users' => $users]);
-    }
+    //     return view('pagehistory.history_modal', ['editMode' => true, 'history' => $history, 'categories' => $categories, 'users' => $users]);
+    // }
 
-    public function update(Request $request, $id)
-    {
-        // Validation rules
-        $validator = Validator::make($request->all(), [
-            'id_category' => 'required|exists:categories,id_category',
-            'id_user' => 'required|exists:users,id',
-            'final_point' => 'required|numeric',
-        ]);
+    // public function update(Request $request, $id)
+    // {
+    //     // Validation rules
+    //     $validator = Validator::make($request->all(), [
+    //         'id_category' => 'required|exists:categories,id_category',
+    //         'id_user' => 'required|exists:users,id',
+    //         'final_point' => 'required|numeric',
+    //     ]);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+    //     if ($validator->fails()) {
+    //         return redirect()->back()->withErrors($validator)->withInput();
+    //     }
 
-        try {
-            $history = History::findOrFail($id);
+    //     try {
+    //         $history = History::findOrFail($id);
 
-            // Check if the history is found
-            if (!$history) {
-                return redirect()->route('pagehistory')->withError('History not found');
-            }
+    //         // Check if the history is found
+    //         if (!$history) {
+    //             return redirect()->route('pagehistory')->withError('History not found');
+    //         }
 
-            // Update the history attributes
-            $history->id_category = $request->id_category;
-            $history->id_user = $request->id_user;
-            $history->final_point = $request->final_point;
+    //         // Update the history attributes
+    //         $history->id_category = $request->id_category;
+    //         $history->id_user = $request->id_user;
+    //         $history->final_point = $request->final_point;
 
-            // Save the updated history
-            $history->save();
+    //         // Save the updated history
+    //         $history->save();
 
-            return redirect()->route('pagehistory')->withSuccess('Riwayat Berhasil diupdate');
-        } catch (\Exception $e) {
-            return redirect()->route('pagehistory')->withError('Terjadi Error ketika update History: ' . $e->getMessage());
-        }
-    }
+    //         return redirect()->route('pagehistory')->withSuccess('Riwayat Berhasil diupdate');
+    //     } catch (\Exception $e) {
+    //         return redirect()->route('pagehistory')->withError('Terjadi Error ketika update History: ' . $e->getMessage());
+    //     }
+    // }
 
     public function destroy($id)
     {
