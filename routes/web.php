@@ -7,6 +7,7 @@ use App\Http\Controllers\authController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClassificationController;
 use App\Http\Controllers\ContentController;
+use App\Http\Controllers\CounselorController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\QuestionController;
@@ -165,7 +166,7 @@ Route::middleware(['web', 'user'])->group(function () {
     })->name('userlogin');
     Route::get('/userlogin', [UserloginController::class, 'index'])->name('userlogin');
     // history user
-    Route::get('/history', [HistoryController::class, 'historyuser'])->name('history');
+    Route::get('/history', [UserloginController::class, 'history'])->name('history');
 
     // rute untuk profile user
     Route::get('/profileuser', [authController::class, 'profileuser'])->name('profileuser');
@@ -176,6 +177,9 @@ Route::middleware(['web', 'user'])->group(function () {
     Route::get('/tes/{currentQuestionIndex?}', [TesController::class, 'index'])->name('tes');
     Route::post('/tes/process-answer', [TesController::class, 'processAnswer'])->name('process_answer');
     Route::get('/results', [TesController::class, 'results'])->name('results');
+
+    //ini untuk action
+    Route::get('history/delete/{id}', [UserloginController::class, 'destroy'])->name('history.destroy');
 });
 
 Route::middleware(['web', 'counselor'])->group(function () {
@@ -187,4 +191,6 @@ Route::middleware(['web', 'counselor'])->group(function () {
     Route::get('/profilecounselor', [authController::class, 'profilecounselor'])->name('profilecounselor');
     Route::put('/profilecounselor', [authController::class, 'updateProfilecounselor'])->name('updateprofilecounselor');
     Route::put('/profilecounselor/updatepasswordcounselor', [authController::class, 'updatePasswordcounselor'])->name('updatepasswordcounselor');
+
+    Route::get('counselorlogin', [CounselorController::class, 'index'])->name('counselorlogin');
 });

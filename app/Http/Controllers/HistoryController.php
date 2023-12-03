@@ -31,11 +31,6 @@ class HistoryController extends Controller
         return $this->getAllDataGroup();
     }
 
-    public function historyuser()
-    {
-        return view('userlogin.history');
-    }
-
     // public function create()
     // {
     //     $categories = $this->getCategories();
