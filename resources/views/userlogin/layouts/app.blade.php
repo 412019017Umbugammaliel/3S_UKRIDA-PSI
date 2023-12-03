@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="{{ asset('/') }}dist/css/adminlte.min.css">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="sidebar-mini layout-fixed">
 <!-- Site wrapper -->
