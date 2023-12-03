@@ -68,7 +68,7 @@ class TesController extends Controller
             $array = array_map('intval', $data['answers']);
 
             $jumlah = [
-                'jumlah'   => array_sum($array),
+                'jumlah' => array_sum($array),
                 'kategori' => $data['idCategory'],
             ];
 
@@ -91,7 +91,7 @@ class TesController extends Controller
 
         $categoryId = $request->input('id_category');
         $selectedAnswer = $request->input('selected_answer');
-        $answers  = Answer::where('id_user', $userId)->get();
+        $answers = Answer::where('id_user', $userId)->get();
 
         if ($answers->isNotEmpty()) {
             // Records exist, update each one
@@ -127,12 +127,10 @@ class TesController extends Controller
 
         foreach ($categoryPoints as $categoryPoint) {
 
-            History::updateOrCreate(
+            History::Create(
                 [
                     'id_user' => $userId,
                     // 'id_category' => $categoryPoint->id_category,
-                ],
-                [
                     'final_point' => $categoryPoint->total_points,
                 ]
             );

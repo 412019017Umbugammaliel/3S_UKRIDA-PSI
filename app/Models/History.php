@@ -10,7 +10,7 @@ class History extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id_category',
+        // 'id_category',
         'id_user',
         'final_point'
     ];

@@ -14,9 +14,9 @@ class HistoryController extends Controller
     public function getAllDataGroup()
     {
         $histories = DB::table('histories')
-            ->join('categories', 'histories.id_category', '=', 'categories.id_category')
+            // ->join('categories', 'histories.id_category', '=', 'categories.id_category')
             ->join('users', 'histories.id_user', '=', 'users.id')
-            ->select('histories.*', 'categories.name_category', 'users.id as id_user', 'users.name as username')
+            ->select('histories.*', 'users.id as id_user', 'users.name as username')
             ->orderBy('histories.id', 'desc')
             ->get();
 

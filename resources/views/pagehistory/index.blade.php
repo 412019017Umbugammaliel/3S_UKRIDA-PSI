@@ -37,7 +37,7 @@
                                     <thead>
                                         <tr>
                                             <th>Number</th>
-                                            <th>Category</th>
+                                            {{-- <th>Category</th> --}}
                                             <th>User</th>
                                             <th>Final Point</th>
                                             <th>Action</th>
@@ -50,7 +50,7 @@
                                         @foreach ($histories as $history)
                                         <tr>
                                             <td>{{ $historyNumber++ }}</td>
-                                            <td>{{ $history->name_category }}</td>
+                                            {{-- <td>{{ $history->name_category }}</td> --}}
                                             <td>{{ $history->username }}</td>
                                             <td>{{ $history->final_point }}</td>
                                                 
@@ -61,9 +61,9 @@
                                                             Actions
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="contentActions">
-                                                            <a class="dropdown-item" href="#" onclick="showhistoryDetails('{{ $history->id }}', '{{ $history->name_category }}', '{{ $history->username }}', '{{ $history->final_point }}')">Details</a>
-                                                            <a class="dropdown-item" href="#" onclick="Edithistory('{{ $history->id }}', '{{ $history->id_category }}', '{{ $history->id_user }}', '{{ $history->final_point }}')">Edit</a>
-                                                            <a class="dropdown-item" href="#" onclick="confirmDelete('{{ $history->id }}')">Hapus</a>
+                                                            {{-- <a class="dropdown-item" href="#" onclick="showhistoryDetails('{{ $history->id }}', '{{ $history->name_category }}', '{{ $history->username }}', '{{ $history->final_point }}')">Details</a> --}}
+                                                            {{-- <a class="dropdown-item" href="#" onclick="Edithistory('{{ $history->id }}', '{{ $history->id_category }}', '{{ $history->id_user }}', '{{ $history->final_point }}')">Edit</a> --}}
+                                                            {{-- <a class="dropdown-item" href="#" onclick="confirmDelete('{{ $history->id }}')">Hapus</a> --}}
                                                         </div>
                                                     </div>
                                                 </div>
