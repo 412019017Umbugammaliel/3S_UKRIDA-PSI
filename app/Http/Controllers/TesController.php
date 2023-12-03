@@ -60,7 +60,8 @@ class TesController extends Controller
     public function processAnswer(Request $request)
     {
         $categoryData = json_decode($request->input('category_data'), true);
-
+        // var_dump($categoryData);
+        // die;
         $jumlahArray = [];
 
         foreach ($categoryData as $categoryId => $data) {
@@ -86,8 +87,7 @@ class TesController extends Controller
         $userId = auth()->user()->id;
         $questionId = $request->input('id_question');
         //
-        // var_dump($jumlahArray);
-        // die;
+
 
         $categoryId = $request->input('id_category');
         $selectedAnswer = $request->input('selected_answer');

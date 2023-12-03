@@ -57,8 +57,8 @@
 
                                             @if ($index === count($questionsWithAnswers) - 1)
                                                 {{-- <button type="submit" class="btn btn-primary">Submit</button> --}}
-                                                <button type="button" class="btn btn-primary"
-                                                    id="submit-button">Submit</button>
+                                                <button type="button" class="btn btn-primary" id="submit-button"
+                                                    data-category="{{ $question->category->id_category }}">Submit</button>
                                             @else
                                                 <button type="button" class="btn btn-outline-primary next-question"
                                                     data-target="#carouselExampleControls"
@@ -113,6 +113,19 @@
             document.getElementById('submit-button').addEventListener('click', function() {
                 // alert("saju");
                 // isi dengan data sebelumnya
+                var idCategory = this.dataset.category; // Corrected from $(this).data('category');
+                var radioButtons = document.querySelectorAll(
+                    'input[name="selected_answer[]"][data-category="' + idCategory + '"]:checked');
+                var categoryData = {
+                    idCategory: idCategory,
+                    answers: []
+                };
+                radioButtons.forEach(function(radioButton) {
+                    categoryData.answers.push(radioButton.value);
+                });
+                categoryValues[idCategory] = categoryData;
+                // console.log(idCategory);
+                // exit;
                 document.getElementById('category-data-input').value = JSON.stringify(categoryValues);
 
                 // data di atas kirim ke kontroleer
