@@ -31,7 +31,7 @@
           with font-awesome or any other icon font library -->
       <li class="nav-header"> DASHBOARD</li>
       <li class="nav-item">
-        <a href="{{ asset('/dashboard') }}" class="nav-link">
+        <a href="{{ asset('/dashboard') }}" class="nav-link {{ Request::is('dashboard') ? 'active' : '' }}">
           <i class="nav-icon fas fa-home"></i>
           <p>
             Dashboard
@@ -39,7 +39,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{{ asset('/profile') }}" class="nav-link">
+        <a href="{{ asset('/profile') }}" class="nav-link {{ Request::is('profile') ? 'active' : '' }}">
           <i class="nav-icon fas fa-user-edit"></i>
           <p>
             Profile
@@ -48,7 +48,7 @@
       </li>
       <li class="nav-header"> Data Tampilan </li>
       <li class="nav-item">
-        <a href="{{ asset('/pagecontent') }}" class="nav-link">
+        <a href="{{ asset('/pagecontent') }}" class="nav-link {{ Request::is('pagecontent') ? 'active' : '' }}">
           <i class="nav-icon fas fa-file"></i>
           <p>
             Page Content
@@ -56,7 +56,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{{ asset('/pageevent') }}" class="nav-link">
+        <a href="{{ asset('/pageevent') }}" class="nav-link {{ Request::is('pageevent') ? 'active' : '' }}">
           <i class="nav-icon fas fa-calendar"></i> 
           <p>
             Page Event
@@ -65,7 +65,7 @@
       </li>
       <li class="nav-header"> Data Base Psikotes</li>
       <li class="nav-item">
-        <a href="{{ asset('/userdata') }}" class="nav-link">
+        <a href="{{ asset('/userdata') }}" class="nav-link {{ Request::is('userdata') ? 'active' : '' }}">
           <i class="nav-icon fas fa-user"></i>
           <p>
             User Data
@@ -73,7 +73,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{{ asset('/pagecategory') }}" class="nav-link">
+        <a href="{{ asset('/pagecategory') }}" class="nav-link {{ Request::is('pagecategory') ? 'active' : '' }}">
           <i class="nav-icon fas fa-folder"></i>
           <p>
             Category
@@ -81,7 +81,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{{ asset('/pagequestion') }}" class="nav-link">
+        <a href="{{ asset('/pagequestion') }}" class="nav-link {{ Request::is('pagequestion') ? 'active' : '' }}">
           <i class="nav-icon fas fa-question"></i>
           <p>
             Questions
@@ -89,7 +89,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{{ asset('/pageanswer') }}" class="nav-link">
+        <a href="{{ asset('/pageanswer') }}" class="nav-link {{ Request::is('pageanswer') ? 'active' : '' }}">
           <i class="nav-icon fas fa-comments"></i>
           <p>
             Answer
@@ -97,7 +97,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{{ asset('pageclassification') }}" class="nav-link">
+        <a href="{{ asset('pageclassification') }}" class="nav-link {{ Request::is('pageclassification') ? 'active' : '' }}">
           <i class="nav-icon fas fa-tag"></i>
           <p>
             Classification
@@ -105,7 +105,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a href="{{ asset('pagehistory') }}" class="nav-link">
+        <a href="{{ asset('pagehistory') }}" class="nav-link {{ Request::is('pagehistory') ? 'active' : '' }}">
           <i class="nav-icon fas fa-history"></i>
           <p>
             History

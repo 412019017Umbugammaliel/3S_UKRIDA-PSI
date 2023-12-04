@@ -41,10 +41,14 @@ Route::controller(authController::class)->group(function () {
     Route::get('login', 'login')->name('login');
     Route::post('login', 'loginAction')->name('login.action');
 
-    Route::get('forgotpassword', 'forgotPassword')->name('password.forgot');
-
     route::get('logout', 'logout')->middleware('auth')->name('logout');
 });
+
+Route::get('forgotpassword', [ForgotPasswordController::class, 'forgotPassword'])->name('password.forgot');
+Route::post('forgotpassword', function (Request $request) {
+    $request->validate(['email' => 'required|email']);
+});
+
 
 Route::middleware(['web', 'admin'])->group(function () {
     Route::get('dashboard', function () {

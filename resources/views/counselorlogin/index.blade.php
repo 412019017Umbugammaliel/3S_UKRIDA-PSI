@@ -50,28 +50,40 @@
         </div>
     </section>
     <!-- JavaScript Function -->
-    <script>
-        $(document).ready(function () {
-            var table = $('#example1').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        extend: 'print',
-                        text: 'Print All',
-                        className: 'text-red',
+<script>
+    $(document).ready(function () {
+        var table = $('#example1').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'print',
+                    text: 'Print All',
+                    className: 'text-red',
+                    customize: function (win) {
+                        // untuk kasih hilang kolom terakhir
+                        $(win.document.body).find('table th:last-child, table td:last-child').remove();
+                        
+                        $(win.document.body)
+                            .css('font-size', '10pt')
+                            .prepend('<h3>Data Only</h3>');
+                        
+                        $(win.document.body).find('table')
+                            .removeClass('dataTable')
+                            .css('font-size', 'inherit');
                     }
-                ]
-            });
+                }
+            ]
         });
+    });
 
-        function showhistoryDetails(id, username, final_point) {
-            // Use SweetAlert to display history details
-            Swal.fire({
-                title: 'History Details',
-                html: `<strong>ID:</strong> ${id}<br><strong>Username:</strong> ${username}<br><strong>Final Point:</strong> ${final_point}`,
-                icon: 'info',
-                confirmButtonText: 'OK'
-            });
-        }
-    </script>
+    function showhistoryDetails(id, username, final_point) {
+        Swal.fire({
+            title: 'History Details',
+            html: `<strong>ID:</strong> ${id}<br><strong>Username:</strong> ${username}<br><strong>Final Point:</strong> ${final_point}`,
+            icon: 'info',
+            confirmButtonText: 'OK'
+        });
+    }
+</script>
+
 @endsection

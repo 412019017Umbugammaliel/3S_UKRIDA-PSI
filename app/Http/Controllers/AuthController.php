@@ -199,9 +199,4 @@ class authController extends Controller
 
         return redirect()->route('profilecounselor')->withSuccess('Password Berhasil Diubah!');
     }
-
-    public function forgotPassword()
-    {
-        return view('auth.forgotpassword');
-    }
 }
