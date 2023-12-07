@@ -35,7 +35,7 @@ class TesController extends Controller
 
             $user = auth()->user();
 
-            $currentQuestionCategoryID = $currentQuestion->id_category;
+            // $currentQuestionCategoryID = $currentQuestion->id_category;
 
             $currentCategoryAnswers = range(1, 6);
 
@@ -86,17 +86,14 @@ class TesController extends Controller
 
         $userId = auth()->user()->id;
         $questionId = $request->input('id_question');
-        //
-
 
         $categoryId = $request->input('id_category');
         $selectedAnswer = $request->input('selected_answer');
         $answers = Answer::where('id_user', $userId)->get();
 
         if ($answers->isNotEmpty()) {
-            // Records exist, update each one
             foreach ($answers as $index => $answer) {
-                $dat = $jumlahArray[$index] ?? null; // Retrieve corresponding data from $jumlahArray
+                $dat = $jumlahArray[$index] ?? null;
 
                 if ($dat) {
                     $answer->update([

@@ -44,10 +44,11 @@ Route::controller(authController::class)->group(function () {
     route::get('logout', 'logout')->middleware('auth')->name('logout');
 });
 
-Route::get('forgotpassword', [ForgotPasswordController::class, 'forgotPassword'])->name('password.forgot');
-Route::post('forgotpassword', function (Request $request) {
-    $request->validate(['email' => 'required|email']);
-});
+//Rute untuk lupa password
+Route::get('forgotpassword', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.forgot');
+Route::post('forgotpassword', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+Route::get('resetpassword/{token}', [ForgotPasswordController::class, 'showResetForm'])->name('password.reset');
+
 
 
 Route::middleware(['web', 'admin'])->group(function () {
@@ -171,6 +172,7 @@ Route::middleware(['web', 'user'])->group(function () {
     Route::get('/userlogin', [UserloginController::class, 'index'])->name('userlogin');
     // history user
     Route::get('/history', [UserloginController::class, 'history'])->name('history');
+    Route::get('/history/details/{historyId}', [UserloginController::class, 'details'])->name('history.details');
 
     // rute untuk profile user
     Route::get('/profileuser', [authController::class, 'profileuser'])->name('profileuser');
@@ -183,7 +185,7 @@ Route::middleware(['web', 'user'])->group(function () {
     Route::get('/results', [TesController::class, 'results'])->name('results');
 
     //ini untuk action
-    Route::get('history/delete/{id}', [UserloginController::class, 'destroy'])->name('history.destroy');
+    // Route::get('history/delete/{id}', [UserloginController::class, 'destroy'])->name('history.destroy');
 });
 
 Route::middleware(['web', 'counselor'])->group(function () {
