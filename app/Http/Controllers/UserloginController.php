@@ -20,79 +20,65 @@ class UserloginController extends Controller
 
     public function history()
     {
-        // Mendapatkan pengguna yang sedang login
-        $user = auth()->user();
+        try {
+            $user = auth()->user();
 
-        // Mendapatkan riwayat (history) yang terkait dengan pengguna yang sedang login
-        $histories = DB::table('histories')
-            ->join('users', 'histories.id_user', '=', 'users.id')
-            ->where('histories.id_user', $user->id)
-            ->select('histories.*', 'users.name as username')
-            ->orderBy('histories.id', 'desc')
-            ->get();
+            // Mendapatkan data tes untuk setiap nomor tes
+            $testNumbers = History::where('id_user', $user->id)->pluck('test_number')->unique();
 
-        $categories = Category::all();
+            // Mengumpulkan data hasil tes untuk setiap nomor tes
+            $histories = collect();
+            foreach ($testNumbers as $testNumber) {
+                $categoryPoints = Answer::select('id_category', 'test_number')
+                    ->selectRaw('SUM(point) as final_point')
+                    ->where('id_user', $user->id)
+                    ->where('test_number', $testNumber)
+                    ->groupBy('id_category', 'test_number')
+                    ->get();
 
-        return view('userlogin.history', compact('histories', 'categories'));
+                $histories->push([
+                    'test_number' => $testNumber,
+                    'categoryPoints' => $categoryPoints,
+                ]);
+            }
+
+            $categories = Category::all();
+
+            // Check if category points are defined
+            $categoryPointsDefined = $histories->flatten()->pluck('categoryPoints')->flatten()->isNotEmpty();
+
+            return view('userlogin.history', compact('histories', 'categories', 'categoryPointsDefined'));
+        } catch (\Exception $e) {
+            return redirect()->route('tes')->with(['error_message' => $e->getMessage()]);
+        }
     }
 
     public function details($historyId)
     {
-        // Mendapatkan pengguna yang sedang login
-        $user = auth()->user();
+        try {
+            $user = auth()->user();
+            // Mendapatkan detail hasil tes berdasarkan ID
+            $history = History::where('id', $historyId)
+                ->where('id_user', $user->id)
+                ->first();
 
-        // Mendapatkan data hasil tes dari tabel 'history' berdasarkan ID tertentu
-        $history = History::where('id', $historyId)
-            ->where('id_user', $user->id)
-            ->first();
+            if (!$history) {
+                throw new \Exception('History not found.');
+            }
+            // Mendapatkan data hasil tes untuk nomor tes tertentu
+            $categoryPoints = Answer::select('id_category', 'test_number', DB::raw('SUM(point) as final_point'))
+                ->where('id_user', $user->id)
+                ->where('test_number', $history->test_number)
+                ->groupBy('id_category', 'test_number')
+                ->get();
 
-        // Check if history exists
-        if (!$history) {
-            return redirect()->route('history')->withError('Riwayat tidak ditemukan');
+            // Meneruskan data ke tampilan
+            return view('userlogin.history.details', [
+                'history' => $history,
+                'categoryPoints' => $categoryPoints,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route('history')->with(['error_message' => $e->getMessage()]);
         }
-
-        // Mengambil data hasil tes untuk setiap kategori dari tabel 'answers'
-        $categoryPoints = Answer::select('id_category', DB::raw('SUM(point) as total_points'))
-            ->where('id_user', $user->id)
-            ->groupBy('id_category')
-            ->get();
-
-        // Check if categoryPoints exist
-        if ($categoryPoints->isEmpty()) {
-            return redirect()->route('history')->withError('Tidak ada data points untuk kategori');
-        }
-
-        // Mengambil kategori dan klasifikasi
-        $categories = Category::all();
-        $classifications = [];
-
-        // Check if categories exist
-        if ($categories->isEmpty()) {
-            return redirect()->route('history')->withError('Tidak ada data kategori');
-        }
-
-        // Ambil klasifikasi berdasarkan kategori
-        foreach ($categories as $category) {
-            $classifications[$category->id_category] = $category->classifications;
-        }
-
-        // Debugging 
-        // dd($history, $categories, $classifications, $categoryPoints);
-
-        return view('userlogin.history', compact('history', 'categories', 'classifications', 'categoryPoints'));
     }
-
-
-    // public function destroy($id)
-    // {
-    //     $history = History::find($id);
-
-    //     if (!$history) {
-    //         return redirect()->route('history')->withError('Riwayat Tidak ditemukan');
-    //     }
-
-    //     $history->delete();
-
-    //     return redirect()->route('history')->withSuccess(' Data Riwayat Berhasil dihapus');
-    // }
 }

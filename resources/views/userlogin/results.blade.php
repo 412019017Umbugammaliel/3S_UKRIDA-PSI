@@ -24,36 +24,41 @@
                 @endphp
 
                 @foreach ($categories as $category)
-                    <div class="card mb-4">
-                        <div class="card-header bg-warning text-dark">
-                            {{ $category->name_category }}
-                        </div>
-                        <div class="card-body">
-                            @php
-                                $categoryPoint = $categoryPoints->where('id_category', $category->id_category)->first();
-                                $classifications = $category->classifications;
-                            @endphp
-
-                            @if ($categoryPoint)
-                                <p>Total Points: {{ $categoryPoint->total_points }}</p>
-                                <p>Classifications:</p>
-                                <ul>
-                                    @foreach ($classifications as $classification)
-                                        <li>{{ $classification->title }} - {{ $classification->description }}</li>
-                                    @endforeach
-                                </ul>
-
-                                @php
-                                    // Tambahkan dataset untuk setiap kategori
-                                    $datasets[] = $categoryPoint->total_points;
-                                    array_unshift($labels, $category->name_category);
-                                @endphp
-                            @else
-                                <p>{{ __('No data available yet') }}</p>
-                            @endif
-                        </div>
+                <div class="card mb-4">
+                    <div class="card-header bg-warning text-dark">
+                        {{ $category->name_category }}
                     </div>
+                    <div class="card-body">
+                        @php
+                            $latestCategoryPoint = $latestCategoryPoints
+                                ->where('id_category', $category->id_category)
+                                ->first();
+
+                            $classifications = $category->classifications;
+                        @endphp
+
+                        @if ($latestCategoryPoint)
+                            <p>Total Points: {{ $latestCategoryPoint->final_point }}</p>
+                            <p>Classifications:</p>
+                            <ul>
+                                @foreach ($classifications as $classification)
+                                    <li>{{ $classification->title }} - {{ $classification->description }}</li>
+                                @endforeach
+                            </ul>
+
+                            @php
+                                // Tambahkan dataset untuk setiap kategori
+                                $datasets[] = $latestCategoryPoint->final_point;
+                                array_unshift($labels, $category->name_category);
+                            @endphp
+                        @else
+                            <p>{{ __('No data available yet') }}</p>
+                        @endif
+                    </div>
+                </div>
                 @endforeach
+
+
 
                 <script>
                     var ctxComparison = document.getElementById('comparisonChart').getContext('2d');

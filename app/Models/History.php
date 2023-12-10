@@ -12,7 +12,8 @@ class History extends Model
     protected $fillable = [
         // 'id_category',
         'id_user',
-        'final_point'
+        'final_point',
+        'test_number'
     ];
 
     public function category()

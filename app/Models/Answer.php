@@ -9,7 +9,7 @@ class Answer extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id_category', 'id_user', 'point'];
+    protected $fillable = ['id_category', 'id_user', 'point', 'test_number'];
 
     public function category()
     {

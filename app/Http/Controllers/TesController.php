@@ -59,115 +59,71 @@ class TesController extends Controller
 
     public function processAnswer(Request $request)
     {
-        $categoryData = json_decode($request->input('category_data'), true);
-        // var_dump($categoryData);
-        // die;
-        $jumlahArray = [];
+        try {
+            $categoryData = json_decode($request->input('category_data'), true);
 
-        foreach ($categoryData as $categoryId => $data) {
-            $array = array_map('intval', $data['answers']);
+            $jumlahArray = [];
 
-            $jumlah = [
-                'jumlah' => array_sum($array),
-                'kategori' => $data['idCategory'],
-            ];
+            foreach ($categoryData as $data) {
+                $array = array_map('intval', $data['answers']);
 
-            $jumlahArray[] = $jumlah;
-        }
+                $jumlah = [
+                    'jumlah' => array_sum($array),
+                    'kategori' => $data['idCategory'],
+                ];
 
-
-        // $request->validate([
-        //     'selected_answer' => 'required|in:1,2,3,4,5,6',
-        //     'id_category' => 'required',
-        //     // 'id_question' => 'required',
-        //     'currentQuestionIndex' => 'required',
-        //     'id_user' => 'required',
-        // ]);
-
-        $userId = auth()->user()->id;
-        $questionId = $request->input('id_question');
-
-        $categoryId = $request->input('id_category');
-        $selectedAnswer = $request->input('selected_answer');
-        $answers = Answer::where('id_user', $userId)->get();
-
-        if ($answers->isNotEmpty()) {
-            foreach ($answers as $index => $answer) {
-                $dat = $jumlahArray[$index] ?? null;
-
-                if ($dat) {
-                    $answer->update([
-                        'point' => $dat['jumlah'],
-                        'id_category' => $dat['kategori'],
-                        // Add other columns to update if needed
-                    ]);
-                }
+                $jumlahArray[] = $jumlah;
             }
-        } else {
-            // Records do not exist, create new records
+
+            $userId = auth()->user()->id;
+
+            // Mendapatkan nomor tes yang terakhir dilakukan
+            $latestTestNumber = History::where('id_user', $userId)->max('test_number') + 1;
+
+            // Create new records for the newly submitted answers
             foreach ($jumlahArray as $dat) {
                 Answer::create([
                     'id_user' => $userId,
                     'id_category' => $dat['kategori'],
-                    // 'id_question' => $questionId,
                     'point' => $dat['jumlah'],
+                    'test_number' => $latestTestNumber,
                 ]);
             }
+
+            // Create a new history record for the current test
+            $totalPoints = array_sum(array_column($jumlahArray, 'jumlah'));
+            History::create([
+                'id_user' => $userId,
+                'final_point' => $totalPoints,
+                'test_number' => $latestTestNumber,
+            ]);
+
+            return redirect()->route('results');
+        } catch (\Exception $e) {
+            return redirect()->route('tes')->with(['error_message' => $e->getMessage()]);
         }
-
-        // dd("succes");
-        // Perbarui poin pada tabel histories
-        $categoryPoints = Answer::select('id_user', DB::raw('SUM(point) as total_points'))
-            ->where('id_user', $userId)
-            ->groupBy('id_user')
-            ->get();
-
-        foreach ($categoryPoints as $categoryPoint) {
-
-            History::Create(
-                [
-                    'id_user' => $userId,
-                    // 'id_category' => $categoryPoint->id_category,
-                    'final_point' => $categoryPoint->total_points,
-                ]
-            );
-        }
-
-        // var_dump($questionId);
-        // die;
-        // Redirect ke halaman tes berikutnya atau ke halaman hasil
-        // $nextQuestionIndex = $request->input('currentQuestionIndex')[0] + 1;
-        // $nextQuestionId = $questionId[0] + 1; // Assuming questions have consecutive IDs
-
-        // $lastQuestionId = Question::max('id_question');
-        // if ($nextQuestionId > $lastQuestionId) {
-        //     // Jika ini adalah pertanyaan terakhir, redirect ke halaman hasil
-        //     return redirect()->route('tes', [
-        //         'currentQuestionIndex' => $nextQuestionIndex,
-        //         'currentQuestionId' => $nextQuestionId,
-        //     ]);
-        // } else {
-        // Jika masih ada pertanyaan berikutnya, redirect ke halaman tes
-        return redirect()->route('results');
-        // }
     }
 
     public function results()
     {
-        $user = auth()->user();
+        try {
+            $user = auth()->user();
+            $categories = Category::all();
 
-        $categories = Category::all();
+            // Mendapatkan data hasil tes terakhir untuk setiap kategori
+            $latestCategoryPoints = Answer::select('id_category', 'test_number', DB::raw('SUM(point) as final_point'))
+                ->where('id_user', $user->id)
+                ->groupBy('id_category', 'test_number')
+                ->latest('test_number') // Mengambil hasil tes terakhir
+                ->get();
 
-        // Mengambil data hasil tes dari tabel 'history'
-        $categoryPoints = Answer::select('id_category', DB::raw('SUM(point) as total_points'))
-            ->where('id_user', $user->id)
-            ->groupBy('id_category')
-            ->get();
-        // var_dump($categoryPoints);
-        // die;
-        return view('userlogin.results', [
-            'categories' => $categories,
-            'categoryPoints' => $categoryPoints,
-        ]);
+            return view('userlogin.results', [
+                'categories' => $categories,
+                'latestCategoryPoints' => $latestCategoryPoints,
+            ]);
+        } catch (\Exception $e) {
+            return redirect()->route('tes')->with(['error_message' => $e->getMessage()]);
+        }
     }
+
 }

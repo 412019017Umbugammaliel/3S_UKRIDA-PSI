@@ -17,6 +17,7 @@ class CreateHistoriesTable extends Migration
             $table->foreign('id_user')->references('id')->on('users');
             // $table->unsignedBigInteger('id_category');
             // $table->foreign('id_category')->references('id_category')->on('categories');
+            $table->integer('test_number')->unsigned()->default(1);
             $table->integer('final_point');
             $table->timestamps();
         });

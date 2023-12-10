@@ -192,11 +192,11 @@ Route::middleware(['web', 'counselor'])->group(function () {
     Route::get('counselorlogin', function () {
         return view('counselorlogin.index');
     })->name('counselorlogin');
-
+    Route::get('counselorlogin', [CounselorController::class, 'index'])->name('counselorlogin');
     // rute untuk profile counselor
     Route::get('/profilecounselor', [authController::class, 'profilecounselor'])->name('profilecounselor');
     Route::put('/profilecounselor', [authController::class, 'updateProfilecounselor'])->name('updateprofilecounselor');
     Route::put('/profilecounselor/updatepasswordcounselor', [authController::class, 'updatePasswordcounselor'])->name('updatepasswordcounselor');
 
-    Route::get('counselorlogin', [CounselorController::class, 'index'])->name('counselorlogin');
+
 });
