@@ -39,6 +39,7 @@
                                             <th>Number</th>
                                             {{-- <th>Category</th> --}}
                                             <th>User</th>
+                                            <th>Test Number</th>
                                             <th>Final Point</th>
                                             <th>Action</th>
                                         </tr>
@@ -52,6 +53,7 @@
                                             <td>{{ $historyNumber++ }}</td>
                                             {{-- <td>{{ $history->name_category }}</td> --}}
                                             <td>{{ $history->username }}</td>
+                                            <td>{{ $history->test_number }}</td>
                                             <td>{{ $history->final_point }}</td>
                                                 
                                             <td class="align-middle">
@@ -61,8 +63,8 @@
                                                             Actions
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="contentActions">
-                                                            <a class="dropdown-item" href="#" onclick="showhistoryDetails('{{ $history->id }}', '{{ $history->username }}', '{{ $history->final_point }}')">Details</a>
-                                                            {{-- <a class="dropdown-item" href="#" onclick="Edithistory('{{ $history->id }}', '{{ $history->id_category }}', '{{ $history->id_user }}', '{{ $history->final_point }}')">Edit</a> --}}
+                                                            <a class="dropdown-item" href="#" onclick="showhistoryDetails('{{ $history->id }}', '{{ $history->username }}', {{ $history->test_number }}, '{{ $history->final_point }}')">Details</a>
+                                                            {{-- <a class="dropdown-item" href="#" onclick="Edithistory('{{ $history->id }}', '{{ $history->id_category }}', '{{ $history->id_user }}', {{ $history->test_number }}, '{{ $history->final_point }}')">Edit</a> --}}
                                                             <a class="dropdown-item" href="#" onclick="confirmDelete('{{ $history->id }}')">Hapus</a>
                                                         </div>
                                                     </div>
@@ -121,6 +123,13 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <label for="test_number">Test Number:</label>
+                            <input type="text" name="test_number" id="test_number" class="form-control" required>
+                            @error('test_number')
+                                <span class="text-danger" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
                             <label for="final_point">Final Point:</label>
                             <input type="text" name="final_point" id="final_point" class="form-control" required>
                             @error('final_point')
@@ -152,7 +161,7 @@
                     <form id="edithistoryForm" action="{{ route('pagehistory.update', ['id' => 0]) }}" method="post">
                         @csrf
                         @method('put')
-                        <!-- Add your form fields here (id_category, id_user, final_point) -->
+                        <!-- Add your form fields here (id_category, id_user, test_number, final_point) -->
                         <div class="form-group">
                             <label for="edithistoryCategory">Category</label>
                             <select class="form-control" id="edithistoryCategory" name="id_category" required>
@@ -170,6 +179,10 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="edithistoryTestNumber">test_number</label>
+                            <input type="text" class="form-control" id="edithistoryTestNumber" name="test_number" required>
+                        </div>
+                        <div class="form-group">
                             <label for="edithistoryFinalPoint">final_point</label>
                             <input type="text" class="form-control" id="edithistoryFinalPoint" name="final_point" required>
                         </div>
@@ -184,18 +197,18 @@
 </section>
 <script>
     //details
-    function showhistoryDetails(id, username, final_point) {
+    function showhistoryDetails(id, username, test_number, final_point) {
         // Use SweetAlert to display history details
         Swal.fire({
             title: 'history Details',
-            html: `<strong>ID:</strong> ${id}<br><strong>Username:</strong> ${username}<br><strong>Final Point:</strong> ${final_point}`,
+            html: `<strong>ID:</strong> ${id}<br><strong>Username:</strong> ${username}<br><strong>Test Number:</strong> ${test_number}<br><strong>Final Point:</strong> ${final_point}`,
             icon: 'info',
             confirmButtonText: 'OK'
         });
     }
 
     // // edit
-    // function Edithistory(id, id_category, id_user, final_point) {
+    // function Edithistory(id, id_category, id_user, test_number, final_point) {
     //     // Set the form action dynamically based on the history ID
     //     var edithistoryForm = document.getElementById('edithistoryForm');
     //     edithistoryForm.action = '/pagehistory/update/' + id;
@@ -203,6 +216,7 @@
     //     // Populate the form fields with existing history details
     //     document.getElementById('edithistoryCategory').value = id_category;
     //     document.getElementById('edithistoryUser').value = id_user;
+    //     document.getElementById('edithistoryTestNumber').value = test_number;
     //     document.getElementById('edithistoryFinalPoint').value = final_point;
 
     //     // Open the edit modal

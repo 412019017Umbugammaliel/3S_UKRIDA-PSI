@@ -39,6 +39,7 @@
                                             <th>Number</th>
                                             <th>Category</th>
                                             <th>User</th>
+                                            <th>Test Number</th>
                                             <th>Point</th>
                                             <th>Action</th>
                                         </tr>
@@ -52,6 +53,7 @@
                                             <td>{{ $answerNumber++ }}</td>
                                             <td>{{ $answer->name_category }}</td>
                                             <td>{{ $answer->username }}</td>
+                                            <td>{{ $answer->test_number }}</td>
                                             <td>{{ $answer->point }}</td>
                                                 
                                             <td class="align-middle">
@@ -61,8 +63,8 @@
                                                             Actions
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="contentActions">
-                                                            <a class="dropdown-item" href="#" onclick="showAnswerDetails('{{ $answer->id }}', '{{ $answer->name_category }}', '{{ $answer->username }}', '{{ $answer->point }}')">Details</a>
-                                                            <a class="dropdown-item" href="#" onclick="EditAnswer('{{ $answer->id }}', '{{ $answer->id_category }}', '{{ $answer->id_user }}', '{{ $answer->point }}')">Edit</a>
+                                                            <a class="dropdown-item" href="#" onclick="showAnswerDetails('{{ $answer->id }}', '{{ $answer->name_category }}', '{{ $answer->username }}', '{{ $answer->test_number }}', '{{ $answer->point }}')">Details</a>
+                                                            <a class="dropdown-item" href="#" onclick="EditAnswer('{{ $answer->id }}', '{{ $answer->id_category }}', '{{ $answer->id_user }}', '{{ $answer->test_number }}', '{{ $answer->point }}')">Edit</a>
                                                             <a class="dropdown-item" href="#" onclick="confirmDelete('{{ $answer->id }}')">Hapus</a>
                                                         </div>
                                                     </div>
@@ -121,6 +123,13 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <label for="test_number">Test Number:</label>
+                            <input type="text" name="test_number" id="test_number" class="form-control" required>
+                            @error('test_number')
+                                <span class="text-danger" role="alert">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
                             <label for="point">Answer Point:</label>
                             <input type="text" name="point" id="point" class="form-control" required>
                             @error('point')
@@ -152,7 +161,7 @@
                     <form id="editAnswerForm" action="{{ route('pageanswer.update', ['id' => 0]) }}" method="post">
                         @csrf
                         @method('put')
-                        <!-- Add your form fields here (id_category, id_user, point) -->
+                        <!-- Add your form fields here (id_category, id_user, test_number, point) -->
                         <div class="form-group">
                             <label for="editAnswerCategory">Category</label>
                             <select class="form-control" id="editAnswerCategory" name="id_category" required>
@@ -170,6 +179,10 @@
                             </select>
                         </div>
                         <div class="form-group">
+                            <label for="editAnswerTestNumber">Test Number</label>
+                            <input type="text" class="form-control" id="editAnswerTestNumber" name="test_number" required>
+                        </div>
+                        <div class="form-group">
                             <label for="editAnswerPoint">Point</label>
                             <input type="text" class="form-control" id="editAnswerPoint" name="point" required>
                         </div>
@@ -184,18 +197,18 @@
 </section>
 <script>
     //details
-    function showAnswerDetails(id, name_category, username, point) {
+    function showAnswerDetails(id, name_category, username, test_number, point) {
         // Use SweetAlert to display answer details
         Swal.fire({
             title: 'Answer Details',
-            html: `<strong>ID:</strong> ${id}<br><strong>Category:</strong> ${name_category}<br><strong>Username:</strong> ${username}<br><strong>Point:</strong> ${point}`,
+            html: `<strong>ID:</strong> ${id}<br><strong>Category:</strong> ${name_category}<br><strong>Username:</strong> ${username}<br><strong>Test Number:</strong> ${test_number}<br><strong>Point:</strong> ${point}`,
             icon: 'info',
             confirmButtonText: 'OK'
         });
     }
 
     // edit
-    function EditAnswer(id, id_category, id_user, point) {
+    function EditAnswer(id, id_category, id_user, test_number, point) {
         // Set the form action dynamically based on the answer ID
         var editAnswerForm = document.getElementById('editAnswerForm');
         editAnswerForm.action = '/pageanswer/update/' + id;
@@ -203,6 +216,7 @@
         // Populate the form fields with existing answer details
         document.getElementById('editAnswerCategory').value = id_category;
         document.getElementById('editAnswerUser').value = id_user;
+        document.getElementById('editAnswerTestNumber').value = test_number;
         document.getElementById('editAnswerPoint').value = point;
 
         // Open the edit modal

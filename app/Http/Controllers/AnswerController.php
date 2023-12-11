@@ -45,6 +45,7 @@ class AnswerController extends Controller
         $validator = Validator::make($request->all(), [
             'id_category' => 'required|exists:categories,id_category',
             'id_user' => 'required|exists:users,id',
+            'test_number' => 'required|numeric',
             'point' => 'required|numeric',
         ]);
 
@@ -55,6 +56,7 @@ class AnswerController extends Controller
         Answer::create([
             'id_category' => $request->id_category,
             'id_user' => $request->id_user,
+            'test_number' => $request->test_number,
             'point' => $request->point,
         ]);
 
@@ -84,6 +86,7 @@ class AnswerController extends Controller
         $validator = Validator::make($request->all(), [
             'id_category' => 'required|exists:categories,id_category',
             'id_user' => 'required|exists:users,id',
+            'test_number' => 'required|numeric',
             'point' => 'required|numeric',
         ]);
 
@@ -104,6 +107,7 @@ class AnswerController extends Controller
             // Update the answer attributes
             $answer->id_category = $request->id_category;
             $answer->id_user = $request->id_user;
+            $answer->test_number = $request->test_number;
             $answer->point = $request->point;
 
             // Save the updated answer

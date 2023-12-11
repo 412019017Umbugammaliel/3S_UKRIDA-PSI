@@ -44,6 +44,7 @@ class HistoryController extends Controller
     //     $validator = Validator::make($request->all(), [
     //         'id_category' => 'required|exists:categories,id_category',
     //         'id_user' => 'required|exists:users,id',
+    //         'test_number' => 'required',
     //         'final_point' => 'required',
     //     ]);
 
@@ -54,6 +55,7 @@ class HistoryController extends Controller
     //     History::create([
     //         'id_category' => $request->id_category,
     //         'id_user' => $request->id_user,
+    //         'test_number' => $request->test_number,
     //         'final_point' => $request->final_point,
     //     ]);
 
@@ -81,6 +83,7 @@ class HistoryController extends Controller
     //     $validator = Validator::make($request->all(), [
     //         'id_category' => 'required|exists:categories,id_category',
     //         'id_user' => 'required|exists:users,id',
+    //         'test_number' => 'required|numeric',
     //         'final_point' => 'required|numeric',
     //     ]);
 
@@ -99,6 +102,7 @@ class HistoryController extends Controller
     //         // Update the history attributes
     //         $history->id_category = $request->id_category;
     //         $history->id_user = $request->id_user;
+    //         $history->test_number = $request->test_number;
     //         $history->final_point = $request->final_point;
 
     //         // Save the updated history

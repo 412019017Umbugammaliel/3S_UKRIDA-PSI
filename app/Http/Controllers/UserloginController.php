@@ -73,7 +73,7 @@ class UserloginController extends Controller
                 ->get();
 
             // Meneruskan data ke tampilan
-            return view('userlogin.history.details', [
+            return view('userlogin.history', [
                 'history' => $history,
                 'categoryPoints' => $categoryPoints,
             ]);

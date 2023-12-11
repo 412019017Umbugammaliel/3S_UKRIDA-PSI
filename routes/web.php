@@ -169,7 +169,7 @@ Route::middleware(['web', 'user'])->group(function () {
     Route::get('userlogin', function () {
         return view('userlogin.index');
     })->name('userlogin');
-    Route::get('/userlogin', [UserloginController::class, 'index'])->name('userlogin');
+    // Route::get('/userlogin', [UserloginController::class, 'index'])->name('userlogin');
     // history user
     Route::get('/history', [UserloginController::class, 'history'])->name('history');
     Route::get('/history/details/{historyId}', [UserloginController::class, 'details'])->name('history.details');
