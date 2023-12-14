@@ -169,7 +169,7 @@ Route::middleware(['web', 'user'])->group(function () {
     Route::get('userlogin', function () {
         return view('userlogin.index');
     })->name('userlogin');
-    // Route::get('/userlogin', [UserloginController::class, 'index'])->name('userlogin');
+    Route::get('/userlogin', [UserloginController::class, 'index'])->name('userlogin');
     // history user
     Route::get('/history', [UserloginController::class, 'history'])->name('history');
     Route::get('/history/details/{historyId}', [UserloginController::class, 'details'])->name('history.details');
@@ -193,6 +193,7 @@ Route::middleware(['web', 'counselor'])->group(function () {
         return view('counselorlogin.index');
     })->name('counselorlogin');
     Route::get('counselorlogin', [CounselorController::class, 'index'])->name('counselorlogin');
+    Route::get('counselorlogin/details/{historyId}', [CounselorController::class, 'details'])->name('counselorlogin.details');
     // rute untuk profile counselor
     Route::get('/profilecounselor', [authController::class, 'profilecounselor'])->name('profilecounselor');
     Route::put('/profilecounselor', [authController::class, 'updateProfilecounselor'])->name('updateprofilecounselor');

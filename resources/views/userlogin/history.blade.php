@@ -162,34 +162,37 @@
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                            <button type="button" class="btn btn-primary" onclick="printModal('{{ $loop->iteration }}')">Download Hasil Tes</button>
+                                                            <button type="button" class="btn btn-primary" onclick="downloadPDF('{{ $loop->iteration }}')">Download Hasil Tes</button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <script>
-                                                function printModal(iteration) {
+                                                 function downloadPDF(iteration) {
+                                                    var modalSelector = '#detailsModal' + iteration;
+
+                                                    // Get the modal content
+                                                    var printContents = $(modalSelector + ' .modal-body').clone(); // Clone to avoid modifying the original content
+
+                                                    // Remove the chart or any other element you want to exclude
+                                                    printContents.find('.card:has(canvas)').remove(); // Remove the card containing the chart
+
+                                                    // Create a new window and set its content to the printable content
                                                     var printWindow = window.open('', '_blank');
-                                                    var printContents = document.getElementById('detailsModal' + iteration).innerHTML;
-                                                    var originalContents = document.body.innerHTML;
-
-                                                    printWindow.document.write('<html><head><title>UKRIDA 3S</title>');
-                                                    printWindow.document.write('<style> @media print { .modal-footer, .close { display: none; } }</style>');
-                                                    printWindow.document.write('</head><body>');
-                                                    printWindow.document.write(printContents);
+                                                    printWindow.document.write('<html><head><title>UKRIDA3S</title></head><body>');
+                                                    printWindow.document.write(printContents.html()); // Use .html() to get the HTML content
                                                     printWindow.document.write('</body></html>');
-
                                                     printWindow.document.close();
 
+                                                    // Print the content
                                                     printWindow.print();
 
-                                                    // Ensure the original content is restored after printing
+                                                    // Close the window after printing
                                                     printWindow.onafterprint = function () {
                                                         printWindow.close();
-                                                        document.body.innerHTML = originalContents;
                                                     };
                                                 }
-                                            </script>
+                                             </script>
                                         @endforeach
                                     </tbody>
                                 </table>
