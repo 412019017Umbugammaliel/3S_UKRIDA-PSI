@@ -36,7 +36,7 @@
                                                 </td>
                                                 <td class="align-middle">
                                                     <a href="{{ route('history.details', $history['test_number']) }}" class="btn btn-primary">Details</a>
-                                                </td>                                                
+                                                </td>
                                             </tr>
 
                                             <!-- Details Modal -->

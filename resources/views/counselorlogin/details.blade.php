@@ -1,4 +1,4 @@
-@extends('userlogin.layouts.app')
+@extends('counselorlogin.layouts.app')
 
 @section('title', 'UKRIDA 3S - Detail History')
 
@@ -28,21 +28,22 @@
                             @foreach($categoryPoints as $categoryPoint)
                                 <div class="card mb-4">
                                     <div class="card-header bg-warning text-dark">
-                                        {{ $categoryPoint->category->name_category }}
+                                        {{ optional($categoryPoint->category)->name_category ?? 'N/A' }}
                                     </div>
                                     <div class="card-body">
                                         <p>Total Points: {{ $categoryPoint->final_point }}</p>
                                         <p>Classifications:</p>
                                         <ul>
-                                            @foreach ($categoryPoint->category->classifications as $classification)
+                                            @foreach (optional($categoryPoint->category)->classifications ?? [] as $classification)
                                                 <li>{{ $classification->title }} - {{ $classification->description }}</li>
                                             @endforeach
                                         </ul>
                                     </div>
                                 </div>
                             @endforeach
+                        
                             <div class="text-center mt-4">
-                                <button class="btn btn-primary" onclick="printPage()" id="printButton">Download Test Results</button>
+                                <button class="btn btn-primary" onclick="printPage()" id="printButton">Print Test Results</button>
                             </div>
                         </div>
                     </div>

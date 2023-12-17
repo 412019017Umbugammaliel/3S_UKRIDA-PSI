@@ -33,9 +33,10 @@ class CounselorController extends Controller
                     ->get();
 
                 $histories->push([
+                    'id' => $userHistory->id, // tambah id disini
                     'test_number' => $testNumber,
                     'user_id' => $userHistory->id_user,
-                    'username' => $userHistory->user->name, // Assuming there is a 'name' field in the User model
+                    'username' => $userHistory->user->name ?? 'N/A',
                     'categoryPoints' => $categoryPoints,
                 ]);
             }
@@ -52,7 +53,7 @@ class CounselorController extends Controller
             // Mendapatkan detail hasil tes berdasarkan ID
             $history = History::findOrFail($historyId);
 
-            // Mendapatkan data hasil tes untuk nomor tes tertentu
+            // Mendapatkan data hasil tes untuk nomor tes tertentu dan ID pengguna tertentu
             $categoryPoints = Answer::select('id_category', 'test_number', DB::raw('SUM(point) as final_point'))
                 ->where('id_user', $history->id_user)
                 ->where('test_number', $history->test_number)
@@ -68,4 +69,5 @@ class CounselorController extends Controller
             return redirect()->route('counselorlogin.index')->with(['error_message' => $e->getMessage()]);
         }
     }
+
 }
