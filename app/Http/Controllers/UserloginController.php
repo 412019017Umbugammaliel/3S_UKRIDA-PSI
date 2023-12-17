@@ -53,27 +53,28 @@ class UserloginController extends Controller
         }
     }
 
-    public function details($historyId)
+    public function details($test_number)
     {
         try {
             $user = auth()->user();
-            // Mendapatkan detail hasil tes berdasarkan ID
-            $history = History::where('id', $historyId)
+            // Mendapatkan detail hasil tes berdasarkan 'test_number'
+            $history = History::where('test_number', $test_number)
                 ->where('id_user', $user->id)
                 ->first();
 
             if (!$history) {
                 throw new \Exception('History not found.');
             }
+
             // Mendapatkan data hasil tes untuk nomor tes tertentu
             $categoryPoints = Answer::select('id_category', 'test_number', DB::raw('SUM(point) as final_point'))
                 ->where('id_user', $user->id)
-                ->where('test_number', $history->test_number)
+                ->where('test_number', $test_number)
                 ->groupBy('id_category', 'test_number')
                 ->get();
 
             // Meneruskan data ke tampilan
-            return view('userlogin.history', [
+            return view('userlogin.history-details', [
                 'history' => $history,
                 'categoryPoints' => $categoryPoints,
             ]);
@@ -81,4 +82,5 @@ class UserloginController extends Controller
             return redirect()->route('history')->with(['error_message' => $e->getMessage()]);
         }
     }
+
 }

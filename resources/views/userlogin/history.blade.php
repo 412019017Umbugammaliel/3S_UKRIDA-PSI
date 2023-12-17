@@ -35,18 +35,12 @@
                                                     @endif
                                                 </td>
                                                 <td class="align-middle">
-                                                    <button type="button" class="btn btn-primary btn-details"
-                                                            data-toggle="modal"
-                                                            data-target="#detailsModal{{ $loop->iteration }}"
-                                                            data-test-number="{{ $history['test_number'] }}"
-                                                            data-final-point="{{ $history['categoryPoints']->isNotEmpty() ? $history['categoryPoints']->sum('final_point') : 0 }}">
-                                                        Details
-                                                    </button>
-                                                </td>
+                                                    <a href="{{ route('history.details', $history['test_number']) }}" class="btn btn-primary">Details</a>
+                                                </td>                                                
                                             </tr>
 
                                             <!-- Details Modal -->
-                                            <div class="modal fade" id="detailsModal{{ $loop->iteration }}" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel{{ $loop->iteration }}" aria-hidden="true">
+                                            {{-- <div class="modal fade" id="detailsModal{{ $loop->iteration }}" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel{{ $loop->iteration }}" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -99,7 +93,7 @@
                                                                                     @php
                                                                                         // Add dataset for each category
                                                                                         $datasets[] = $categoryPoint->final_point;
-                                                                                        array_unshift($labels, $category->name_category);
+                                                                                        $labels[] = $category->name_category;
                                                                                     @endphp
                                                                                 @else
                                                                                     <p class="text-danger">{{ __('No data available for this category in test number ' . $testNumber) }}</p>
@@ -192,7 +186,7 @@
                                                         printWindow.close();
                                                     };
                                                 }
-                                             </script>
+                                             </script> --}}
                                         @endforeach
                                     </tbody>
                                 </table>

@@ -172,7 +172,7 @@ Route::middleware(['web', 'user'])->group(function () {
     Route::get('/userlogin', [UserloginController::class, 'index'])->name('userlogin');
     // history user
     Route::get('/history', [UserloginController::class, 'history'])->name('history');
-    Route::get('/history/details/{historyId}', [UserloginController::class, 'details'])->name('history.details');
+    Route::get('/history/details/{test_number}', [UserloginController::class, 'details'])->name('history.details');
 
     // rute untuk profile user
     Route::get('/profileuser', [authController::class, 'profileuser'])->name('profileuser');

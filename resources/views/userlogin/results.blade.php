@@ -49,7 +49,7 @@
                             @php
                                 // Tambahkan dataset untuk setiap kategori
                                 $datasets[] = $latestCategoryPoint->final_point;
-                                array_unshift($labels, $category->name_category);
+                                $labels[] = $category->name_category;
                             @endphp
                         @else
                             <p>{{ __('No data available yet') }}</p>
