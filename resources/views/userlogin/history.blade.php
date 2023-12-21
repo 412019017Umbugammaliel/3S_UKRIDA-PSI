@@ -13,7 +13,7 @@
                         </div>
                         <div class="card-body">
                             @if($histories->count() > 0)
-                                <table class="table table-bordered table-striped">
+                            <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th>Number</th>

@@ -42,6 +42,9 @@ class UserloginController extends Controller
                 ]);
             }
 
+            // Sort histories by test_number in descending order
+            $histories = $histories->sortByDesc('test_number')->values();
+
             $categories = Category::all();
 
             // Check if category points are defined
@@ -52,6 +55,7 @@ class UserloginController extends Controller
             return redirect()->route('tes')->with(['error_message' => $e->getMessage()]);
         }
     }
+
 
     public function details($test_number)
     {

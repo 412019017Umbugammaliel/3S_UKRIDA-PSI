@@ -13,10 +13,22 @@
   <link rel="stylesheet" href="{{ asset('/') }}plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('/') }}dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
+
+  <!-- jQuery -->
+  <script src="{{ asset('/') }}plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{ asset('/') }}plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+  <style>
+    /* Add your custom styles here */
+  </style>
 </head>
 <body class="sidebar-mini layout-fixed">
 <!-- Site wrapper -->
@@ -50,8 +62,7 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-</div>
-
+  </div>
 
   @include('userlogin.layouts.footer')
 
@@ -63,13 +74,14 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="{{ asset('/') }}plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="{{ asset('/') }}plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('/') }}dist/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-{{-- <script src="{{ asset('/') }}dist/js/demo.js"></script> --}}
+<!-- Your custom scripts -->
+<script>
+    $(document).ready(function () {
+        // Initialize DataTable
+        $('#example1').DataTable();
+    });
+</script>
 </body>
 </html>
