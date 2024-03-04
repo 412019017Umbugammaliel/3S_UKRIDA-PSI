@@ -164,7 +164,7 @@ Route::middleware(['web', 'admin'])->group(function () {
     });
 });
 
-// Rute "userlogin" hanya dapat diakses oleh pengguna "User" (tidak perlu middleware)
+// Rute "userlogin" hanya dapat diakses oleh pengguna "User"
 Route::middleware(['web', 'user'])->group(function () {
     Route::get('userlogin', function () {
         return view('userlogin.index');

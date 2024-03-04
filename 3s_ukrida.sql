@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 03, 2023 at 07:37 AM
+-- Generation Time: Jan 13, 2024 at 11:26 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -32,6 +32,7 @@ CREATE TABLE `answers` (
   `id_category` bigint(20) UNSIGNED NOT NULL,
   `id_user` bigint(20) UNSIGNED NOT NULL,
   `point` tinyint(3) UNSIGNED NOT NULL,
+  `test_number` int(10) UNSIGNED NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -40,11 +41,55 @@ CREATE TABLE `answers` (
 -- Dumping data for table `answers`
 --
 
-INSERT INTO `answers` (`id`, `id_category`, `id_user`, `point`, `created_at`, `updated_at`) VALUES
-(4, 6, 5, 5, '2023-12-02 13:04:19', '2023-12-02 13:04:19'),
-(5, 6, 5, 6, '2023-12-02 13:04:39', '2023-12-02 13:04:39'),
-(6, 6, 5, 6, '2023-12-02 13:14:39', '2023-12-02 13:14:39'),
-(7, 6, 3, 6, '2023-12-02 13:18:36', '2023-12-02 13:18:36');
+INSERT INTO `answers` (`id`, `id_category`, `id_user`, `point`, `test_number`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, 9, 1, '2023-12-18 06:03:27', '2023-12-18 06:03:27'),
+(2, 2, 3, 5, 1, '2023-12-18 06:03:27', '2023-12-18 06:03:27'),
+(3, 3, 3, 5, 1, '2023-12-18 06:03:27', '2023-12-18 06:03:27'),
+(4, 4, 3, 6, 1, '2023-12-18 06:03:27', '2023-12-18 06:03:27'),
+(5, 5, 3, 3, 1, '2023-12-18 06:03:27', '2023-12-18 06:03:27'),
+(6, 6, 3, 2, 1, '2023-12-18 06:03:27', '2023-12-18 06:03:27'),
+(7, 1, 5, 5, 1, '2023-12-18 06:08:54', '2023-12-18 06:08:54'),
+(8, 2, 5, 6, 1, '2023-12-18 06:08:54', '2023-12-18 06:08:54'),
+(9, 3, 5, 5, 1, '2023-12-18 06:08:54', '2023-12-18 06:08:54'),
+(10, 4, 5, 3, 1, '2023-12-18 06:08:54', '2023-12-18 06:08:54'),
+(11, 5, 5, 4, 1, '2023-12-18 06:08:54', '2023-12-18 06:08:54'),
+(12, 6, 5, 4, 1, '2023-12-18 06:08:54', '2023-12-18 06:08:54'),
+(13, 1, 5, 2, 2, '2023-12-18 06:11:09', '2023-12-18 06:11:09'),
+(14, 2, 5, 6, 2, '2023-12-18 06:11:09', '2023-12-18 06:11:09'),
+(15, 3, 5, 6, 2, '2023-12-18 06:11:09', '2023-12-18 06:11:09'),
+(16, 4, 5, 2, 2, '2023-12-18 06:11:09', '2023-12-18 06:11:09'),
+(17, 5, 5, 6, 2, '2023-12-18 06:11:09', '2023-12-18 06:11:09'),
+(18, 6, 5, 3, 2, '2023-12-18 06:11:09', '2023-12-18 06:11:09'),
+(19, 1, 5, 9, 3, '2023-12-24 12:20:45', '2023-12-24 12:20:45'),
+(20, 2, 5, 5, 3, '2023-12-24 12:20:45', '2023-12-24 12:20:45'),
+(21, 3, 5, 6, 3, '2023-12-24 12:20:45', '2023-12-24 12:20:45'),
+(22, 4, 5, 5, 3, '2023-12-24 12:20:45', '2023-12-24 12:20:45'),
+(23, 5, 5, 6, 3, '2023-12-24 12:20:45', '2023-12-24 12:20:45'),
+(24, 6, 5, 6, 3, '2023-12-24 12:20:45', '2023-12-24 12:20:45'),
+(25, 1, 5, 6, 4, '2023-12-26 06:38:07', '2023-12-26 06:38:07'),
+(26, 2, 5, 6, 4, '2023-12-26 06:38:07', '2023-12-26 06:38:07'),
+(27, 3, 5, 5, 4, '2023-12-26 06:38:07', '2023-12-26 06:38:07'),
+(28, 4, 5, 6, 4, '2023-12-26 06:38:07', '2023-12-26 06:38:07'),
+(29, 5, 5, 6, 4, '2023-12-26 06:38:07', '2023-12-26 06:38:07'),
+(30, 6, 5, 6, 4, '2023-12-26 06:38:07', '2023-12-26 06:38:07'),
+(31, 1, 5, 12, 4, '2024-01-10 09:47:42', '2024-01-10 09:47:42'),
+(32, 2, 5, 4, 4, '2024-01-10 09:47:42', '2024-01-10 09:47:42'),
+(33, 3, 5, 3, 4, '2024-01-10 09:47:42', '2024-01-10 09:47:42'),
+(34, 4, 5, 2, 4, '2024-01-10 09:47:42', '2024-01-10 09:47:42'),
+(35, 5, 5, 1, 4, '2024-01-10 09:47:42', '2024-01-10 09:47:42'),
+(36, 6, 5, 5, 4, '2024-01-10 09:47:42', '2024-01-10 09:47:42'),
+(37, 1, 7, 7, 1, '2024-01-11 20:43:24', '2024-01-11 20:43:24'),
+(38, 2, 7, 4, 1, '2024-01-11 20:43:24', '2024-01-11 20:43:24'),
+(39, 3, 7, 4, 1, '2024-01-11 20:43:24', '2024-01-11 20:43:24'),
+(40, 4, 7, 4, 1, '2024-01-11 20:43:24', '2024-01-11 20:43:24'),
+(41, 5, 7, 5, 1, '2024-01-11 20:43:24', '2024-01-11 20:43:24'),
+(42, 6, 7, 5, 1, '2024-01-11 20:43:24', '2024-01-11 20:43:24'),
+(43, 1, 5, 11, 5, '2024-01-13 03:17:55', '2024-01-13 03:17:55'),
+(44, 2, 5, 4, 5, '2024-01-13 03:17:55', '2024-01-13 03:17:55'),
+(45, 3, 5, 6, 5, '2024-01-13 03:17:55', '2024-01-13 03:17:55'),
+(46, 4, 5, 6, 5, '2024-01-13 03:17:55', '2024-01-13 03:17:55'),
+(47, 5, 5, 6, 5, '2024-01-13 03:17:55', '2024-01-13 03:17:55'),
+(48, 6, 5, 5, 5, '2024-01-13 03:17:55', '2024-01-13 03:17:55');
 
 -- --------------------------------------------------------
 
@@ -96,7 +141,7 @@ INSERT INTO `classifications` (`id`, `id_category`, `title`, `description`, `cre
 (6, 2, 'Results Investigative', 'Orang yang menyukai karier seperti Ahli Biologi, Ahli Geologi, ahli Kimia, Antropolog, asisten laboratorium, pengawasan produk (product inspector), dan ahli medis.Tipe I biasanya memiliki kemampuan matematika dan sains. Tipe I senang untuk bekerja sendirian dan suka untuk memecahkan masalah. Tipe I umumnya suka untuk bekerja dengan hipotesis/ ide daripada dengan manusia atau alat benda. Orang-orang mendeskripsikan Tipe I sebagai orang yang logis memiliki rasa ingin tahu, teliti, terpelajar, independen, pendiam dan sederhana', '2023-11-26 22:45:32', '2023-11-26 22:50:21'),
 (7, 3, 'Results Artistic', 'Orang yang menyukai karier seperti komposer, pemusik, penari, penyanyi, interior decorator, aktor, penulis, dan juru lelang. Tipe A biasanya memiliki keahlian artistik, suka menciptakan pekerjaan yang original, dan memiliki imajinasi yang baik. Tipe A umumnya lebih suka bekerja dengan ide baru daripada dengan manusia atau alat benda. Orang-orang mendeskripsikan Tipe A sebagai orang yang terbuka, kreatif, independen, emosional, impulsif, dan original', '2023-11-26 22:55:34', '2023-11-26 22:55:34'),
 (8, 4, 'Results Social', 'Orang yang menyukai karier sebagai guru, terapis wicara, pekerja keagamaan, konselor, dan perawat. Tipe S biasanya senang berada disekitar orang banyak. Tipe ini tertarik dengan keberadaan orang-orang di sekitarnya dan membantu orang-orang yang mempunyai masalah. Tipe S umumnya lebih suka bekerja bersama tim/ orang lain daripada dengan alat benda. Orang mendeskripsikan Tipe S sebagai orang yang suka menolong dan pengertian, hangat, bertanggung jawab, mampu bekerja sama, bersahabat, baik hati dermawan, dan sabar.', '2023-11-26 22:56:31', '2023-11-26 22:56:31'),
-(9, 5, 'Results Enterprising', 'Orang yang menyukai karier seperti eksekutif bisnis, produser televisi, sales, pramusaji, agen travel, supervisor, dan manager toko. Tipe E biasanya memiliki kemampuan memimpin dan public speaking. Tipe E tertarik dengan uang dan politik dan suka memengaruhi orang lain. Tipe E umumnya lebih suka untuk bekerja dengan orang lain dan ide daripada dengan alat benda. Orang mendeskripsikan Tipe E sebagai orang yang ramah, berpetualang, energik, optimis, senang bergaul, percaya diri, dan ambisius', '2023-11-26 22:57:27', '2023-11-26 22:57:27'),
+(9, 5, 'Results Enterprising', 'Orang yang menyukai karier seperti eksekutif bisnis, produser televisi, sales, pramusaji, agen travel, supervisor, dan manager toko. Tipe E biasanya memiliki kemampuan memimpin dan public speaking. Tipe E tertarik dengan uang dan politik dan suka memengaruhi orang lain. Tipe E umumnya lebih suka untuk bekerja dengan orang lain dan ide daripada dengan alat benda. Orang mendeskripsikan Tipe E sebagai orang yang ramah, berpetualang, energik, optimis, senang bergaul, percaya diri, dan ambisius', '2023-11-26 22:57:27', '2023-12-04 06:16:24'),
 (10, 6, 'Results Conventional', 'Orang yang menyukai karier sebagai analis finansial, banker, ahli pajak, pekerja pembukuan, sekretaris, pegawai kantor, dan penyiar radio. Tipe C memiliki kemampuan klerikal dan matematika. Tipe C senang bekerja di luar ruangan dan mengorganisir sesuatu. Tipe C umumnya senang bekerja dengan kertas dan angka daripada dengan manusia. Orang mendeskripsikan Tipe C sebagai orang yang praktis, hari-hati, cemas, efisien, patuh, dan keras hati.', '2023-11-26 22:58:16', '2023-11-26 22:58:16');
 
 -- --------------------------------------------------------
@@ -144,7 +189,7 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`id`, `created_at`, `updated_at`, `event_date`, `session_type`, `availability`, `image_path`, `description`) VALUES
-(1, '2023-11-20 10:32:42', '2023-11-22 13:26:00', '2023-11-14', '3S in House', 'Open', '1700684760.png', 'Agar mencapai hasil yang lebih efektif, kami mengusulkan agar program ini dilaksanakan sesuai jenjang sekolah, misalnya untuk kelas 10 saja, kelas 11 saja atau komunitas seusia agar penyampaianya bisa tepat sesuai kebutuhan. Dalam tahun pelayanan 2022, program ini berlaku mulai 1 Oktober 2022 sesuai dengan kapasitas dan ketersediaan waktu dari team pengabdian masyarakat yang terdiri atas dosen dan mahasiswa Ukrida.');
+(1, '2023-11-20 10:32:42', '2023-12-04 06:31:03', '2023-11-14', '3S in House', 'Open', '1700684760.png', 'Agar mencapai hasil yang lebih efektif, kami mengusulkan agar program ini dilaksanakan sesuai jenjang sekolah, misalnya untuk kelas 10 saja, kelas 11 saja atau komunitas seusia agar penyampaianya bisa tepat sesuai kebutuhan. Dalam tahun pelayanan 2022, program ini berlaku mulai 1 Oktober 2022 sesuai dengan kapasitas dan ketersediaan waktu dari team pengabdian masyarakat yang terdiri atas dosen dan mahasiswa Ukrida.');
 
 -- --------------------------------------------------------
 
@@ -171,7 +216,7 @@ CREATE TABLE `failed_jobs` (
 CREATE TABLE `histories` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `id_user` bigint(20) UNSIGNED NOT NULL,
-  `id_category` bigint(20) UNSIGNED NOT NULL,
+  `test_number` int(10) UNSIGNED NOT NULL DEFAULT 1,
   `final_point` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -181,9 +226,14 @@ CREATE TABLE `histories` (
 -- Dumping data for table `histories`
 --
 
-INSERT INTO `histories` (`id`, `id_user`, `id_category`, `final_point`, `created_at`, `updated_at`) VALUES
-(2, 5, 6, 17, '2023-12-02 13:04:19', '2023-12-02 13:14:39'),
-(3, 3, 6, 6, '2023-12-02 13:18:36', '2023-12-02 13:18:36');
+INSERT INTO `histories` (`id`, `id_user`, `test_number`, `final_point`, `created_at`, `updated_at`) VALUES
+(1, 3, 1, 30, '2023-12-18 06:03:27', '2023-12-18 06:03:27'),
+(2, 5, 1, 27, '2023-12-18 06:08:54', '2023-12-18 06:08:54'),
+(3, 5, 2, 25, '2023-12-18 06:11:09', '2023-12-18 06:11:09'),
+(4, 5, 3, 37, '2023-12-24 12:20:45', '2023-12-24 12:20:45'),
+(6, 5, 4, 27, '2024-01-10 09:47:42', '2024-01-10 09:47:42'),
+(7, 7, 1, 29, '2024-01-11 20:43:24', '2024-01-11 20:43:24'),
+(8, 5, 5, 38, '2024-01-13 03:17:55', '2024-01-13 03:17:55');
 
 -- --------------------------------------------------------
 
@@ -216,8 +266,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (20, '2023_11_25_130317_create_answers_table', 3),
 (25, '2023_11_25_164828_create_point_table', 6),
 (26, '2023_11_13_180343_create_questions_table', 7),
-(35, '2023_11_25_130311_create_answers_table', 8),
-(36, '2023_11_30_161032_create_histories_table', 8);
+(55, '2023_11_25_130311_create_answers_table', 8),
+(56, '2023_11_30_161032_create_histories_table', 8);
 
 -- --------------------------------------------------------
 
@@ -248,7 +298,8 @@ CREATE TABLE `password_reset_tokens` (
 --
 
 INSERT INTO `password_reset_tokens` (`email`, `token`, `created_at`) VALUES
-('gammalielumbu@gmail.com', '$2y$10$FAZ6Iesv0FCamn9TsOUhMuLpPgdvbug1lB6AjT3dRc4tnyQh3QM4O', '2023-11-22 12:42:26');
+('gammalielumbu@gmail.com', '$2y$10$FAZ6Iesv0FCamn9TsOUhMuLpPgdvbug1lB6AjT3dRc4tnyQh3QM4O', '2023-11-22 12:42:26'),
+('umbu@gmail.com', '$2y$10$EP739ZWiZae0mVz/KwAtVORmlxm6vov/9YWyD9riSvRqKcvoWvYj6', '2023-12-04 12:55:49');
 
 -- --------------------------------------------------------
 
@@ -305,7 +356,10 @@ INSERT INTO `questions` (`id_question`, `id_category`, `questions`, `title`, `cr
 (1, 1, 'Apakah Anda Manusia?', 'Realistic-1', '2023-11-30 10:23:10', '2023-11-30 10:23:10'),
 (2, 1, 'Apakah hidup itu indah?', 'Realistic-2', '2023-11-30 10:24:48', '2023-11-30 12:11:09'),
 (3, 2, 'Bagaimana menjalani hidup?', 'Investigative-1', '2023-11-30 12:11:33', '2023-11-30 12:11:33'),
-(4, 6, 'apakah hidup berat?', 'Investigative-2', '2023-11-30 12:11:56', '2023-11-30 15:48:06');
+(4, 6, 'apakah hidup berat?', 'Investigative-2', '2023-11-30 12:11:56', '2023-11-30 15:48:06'),
+(5, 3, 'Apa kamu orang indonesia?', 'Artistic-1', '2023-12-03 00:09:47', '2024-01-08 10:12:29'),
+(6, 4, 'Apakah hidup adalah hidup?', 'Social-1', '2023-12-03 00:10:13', '2023-12-03 00:10:13'),
+(7, 5, 'Apakah saya ada?', 'Enterprising', '2023-12-03 00:10:42', '2023-12-03 00:10:42');
 
 -- --------------------------------------------------------
 
@@ -333,9 +387,11 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `class`, `school_name`, `password`, `level`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'umbu', 'umbu@gmail.com', NULL, '9', 'UKRIDA', '$2y$10$7ekkzlRmTpuH/3L88CkDtONlJe7zYzCh9Z.3Tw52Xx/HJQt7PnWKC', 'Admin', NULL, '2023-11-20 10:25:27', '2023-11-22 14:35:57'),
-(2, 'counselor', 'counselor@gmail.com', NULL, '10', 'SMA katolik', '$2y$10$wcb/QO2fawgkEqoG3Veu5uae.iN7vn0B021b3pjRBkRao4P9kEAXy', 'Counselor', NULL, '2023-11-20 10:35:14', '2023-11-22 09:41:23'),
-(3, 'user', 'user@gmail.com', NULL, '10', 'SMP N 1 user', '$2y$10$D9rOHJE2lGjUkG6wEOVIleB7gVfPMjWTmrRStI/4eGJ4vpK/bM1fO', 'User', NULL, '2023-11-20 10:36:35', '2023-11-30 10:40:54'),
-(5, 'hallo', 'hallo@gmail.com', NULL, '10', 'hallohallo', '$2y$10$O6dnHebtbksIdmiNbH35Oe/op25fuyKSxo0J8xWdr6Sk3fmq5Gr9u', 'User', NULL, '2023-11-30 12:39:00', '2023-11-30 12:39:00');
+(2, 'counselor', 'counselor@gmail.com', NULL, '12', 'SMA katolik', '$2y$10$wcb/QO2fawgkEqoG3Veu5uae.iN7vn0B021b3pjRBkRao4P9kEAXy', 'Counselor', NULL, '2023-11-20 10:35:14', '2023-12-03 00:27:48'),
+(3, 'siapasaya', 'siapasaya@gmail.com', NULL, '10', 'SMP N 1 siapasaya', '$2y$10$D9rOHJE2lGjUkG6wEOVIleB7gVfPMjWTmrRStI/4eGJ4vpK/bM1fO', 'User', NULL, '2023-11-20 10:36:35', '2023-12-13 14:30:06'),
+(5, 'hallo', 'hallo@gmail.com', NULL, '10', 'hallohallo', '$2y$10$O6dnHebtbksIdmiNbH35Oe/op25fuyKSxo0J8xWdr6Sk3fmq5Gr9u', 'User', NULL, '2023-11-30 12:39:00', '2023-11-30 12:39:00'),
+(6, 'licuk', 'licuk@gmail.com', NULL, '10', 'SMA Licuk Indonesia', '$2y$10$N/GKv7E/zwtM2xU5qZkL9eepmjMrLp4dM16AgmVpUvKecUpqF.Oai', 'User', NULL, '2023-12-13 14:09:08', '2023-12-13 14:09:08'),
+(7, 'demo', 'demo@gmail.com', NULL, '10', 'ukrida', '$2y$10$YZltKVosD1OhuDiSDBjTVO.pw0cN30H2abaYI0akmXcTJTIWAzFgK', 'User', NULL, '2024-01-11 20:42:17', '2024-01-11 20:42:17');
 
 --
 -- Indexes for dumped tables
@@ -386,8 +442,7 @@ ALTER TABLE `failed_jobs`
 --
 ALTER TABLE `histories`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `histories_id_user_foreign` (`id_user`),
-  ADD KEY `histories_id_category_foreign` (`id_category`);
+  ADD KEY `histories_id_user_foreign` (`id_user`);
 
 --
 -- Indexes for table `migrations`
@@ -443,7 +498,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -479,13 +534,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `histories`
 --
 ALTER TABLE `histories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -503,13 +558,13 @@ ALTER TABLE `point`
 -- AUTO_INCREMENT for table `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id_question` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_question` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables
@@ -532,7 +587,6 @@ ALTER TABLE `classifications`
 -- Constraints for table `histories`
 --
 ALTER TABLE `histories`
-  ADD CONSTRAINT `histories_id_category_foreign` FOREIGN KEY (`id_category`) REFERENCES `categories` (`id_category`),
   ADD CONSTRAINT `histories_id_user_foreign` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`);
 
 --
